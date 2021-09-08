@@ -21,7 +21,7 @@ const ArrayName = (base: string, original: any, list: any) => {
   }
 };
 
-const ObjectToGLStructure = (original: any): {[key: string]: UniformType} => {
+const ObjectToGLStructure = (original: any): { [key: string]: UniformType } => {
   const list = {};
   if (Array.isArray(original)) ArrayName('', original, list);
   else if (typeof original === 'object') ObjectName('', original, list);

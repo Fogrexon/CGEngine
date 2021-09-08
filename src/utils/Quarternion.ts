@@ -1,5 +1,5 @@
 import { Vector3, Vector4 } from './Vector';
-import { Matrix4 } from './Matrixes/Matrix4';
+import { Matrix4 } from './matrixes/Matrix4';
 
 class Quartanion {
   v: Vector3;
@@ -50,10 +50,22 @@ class Quartanion {
     const { x, y, z } = this.v;
     const { w } = this;
     return new Matrix4([
-      x ** 2 - y ** 2 - z ** 2 + w ** 2, 2 * (x * y + z * w), 2 * (x * z - y * w), 0,
-      2 * (x * y - z * w), y ** 2 - x ** 2 - z ** 2 + w ** 2, 2 * (y * z + x * w), 0,
-      2 * (x * z + y * w), 2 * (y * z - x * w), z ** 2 + w ** 2 - x ** 2 - y ** 2, 0,
-      0, 0, 0, 1,
+      x ** 2 - y ** 2 - z ** 2 + w ** 2,
+      2 * (x * y + z * w),
+      2 * (x * z - y * w),
+      0,
+      2 * (x * y - z * w),
+      y ** 2 - x ** 2 - z ** 2 + w ** 2,
+      2 * (y * z + x * w),
+      0,
+      2 * (x * z + y * w),
+      2 * (y * z - x * w),
+      z ** 2 + w ** 2 - x ** 2 - y ** 2,
+      0,
+      0,
+      0,
+      0,
+      1,
     ]);
   }
 
@@ -82,12 +94,12 @@ class Quartanion {
     if (element[maxIndex] < 0) {
       this.v = new Vector3(0, 0, 0);
       this.w = 1;
-      console.log('Wrong matrix');
+      console.error('Wrong matrix');
       return this;
     }
 
     const q: number[] = [0, 0, 0, 0];
-    let v: number = (Math.sqrt(element[maxIndex]) * 0.5 + 0.00001);
+    let v: number = Math.sqrt(element[maxIndex]) * 0.5 + 0.00001;
     q[maxIndex] = v;
     v = 0.25 / v;
 

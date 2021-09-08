@@ -1,6 +1,5 @@
 import { Color } from '../utils/Color';
 import { CameraType } from '../camera/Camera';
-import { Entity } from '../object/Entity';
 import { Matrix4 } from '../utils/Matrix';
 import { ObjectToGLStructure } from '../utils/ObjectToGLStructure';
 import { LightsUniform, originalLightsUniform } from '../light/Primitives';
@@ -8,19 +7,18 @@ import { Empty } from '../object/Empty';
 import { UniformType } from '../utils/UniformSwitcher';
 import { Integer } from '../utils/Integer';
 
-interface RendererParameter
-{
-  canvas : HTMLCanvasElement;
-  clearColor : Color | undefined;
-  clearDepth : number | undefined;
+interface RendererParameter {
+  canvas: HTMLCanvasElement;
+  clearColor: Color | undefined;
+  clearDepth: number | undefined;
 }
 
 class Renderer {
-  private parameter : RendererParameter;
+  private parameter: RendererParameter;
 
-  public canvas : HTMLCanvasElement;
+  public canvas: HTMLCanvasElement;
 
-  private gl : WebGLRenderingContext;
+  private gl: WebGLRenderingContext;
 
   entities: Empty | null = null;
 
@@ -70,10 +68,10 @@ class Renderer {
     lightsList.uSpotNum = new Integer(lightsList.uSpotNum);
     lightsList.uAmbientNum = new Integer(lightsList.uAmbientNum);
 
-    const lightsUniform: {[key: string]: UniformType} = ObjectToGLStructure(lightsList);
+    const lightsUniform: { [key: string]: UniformType } = ObjectToGLStructure(lightsList);
 
     const option: {
-      uniforms: {[key: string]: UniformType}
+      uniforms: { [key: string]: UniformType };
     } = {
       uniforms: {
         ...lightsUniform,

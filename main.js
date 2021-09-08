@@ -13,7 +13,6 @@ window.addEventListener('load', () => {
   // const camera = new CGEngine.OrthographicCamera(10, canvas.width / canvas.height, 0.01, 1000);
 
   const pbr = CGEngine.PBRPrimitives.CookTorrance;
-  console.log(pbr);
 
   camera.transform.position.z = 1;
   camera.transform.position.y = 0;

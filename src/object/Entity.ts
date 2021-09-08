@@ -16,10 +16,7 @@ class Entity extends Empty {
     this.material = material;
   }
 
-  initialize(
-    gl: WebGLRenderingContext,
-    defaultUniforms: {[key: string]: UniformType},
-  ): void {
+  initialize(gl: WebGLRenderingContext, defaultUniforms: { [key: string]: UniformType }): void {
     this.program = <WebGLProgram>gl.createProgram();
     (<Material> this.material).initialize(gl, this.program, defaultUniforms);
     (<Geometry> this.geometry).setupAttribute(gl, this.program);
@@ -34,17 +31,11 @@ class Entity extends Empty {
       ...option.uniforms,
     };
 
-
     gl.useProgram(this.program);
     this.material.setUniforms(gl);
     this.geometry.attachAttribute(gl);
 
-    gl.drawElements(
-      gl.TRIANGLES,
-      this.geometry.getIndexLength(),
-      gl.UNSIGNED_SHORT,
-      0,
-    );
+    gl.drawElements(gl.TRIANGLES, this.geometry.getIndexLength(), gl.UNSIGNED_SHORT, 0);
 
     super.render(gl, option);
   }

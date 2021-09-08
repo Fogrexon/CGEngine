@@ -1,6 +1,6 @@
 import { Primitives } from './BRDF/Primitives';
 
-const PhysicalFragmentBase: {before: string, after: string} = {
+const PhysicalFragmentBase: { before: string; after: string } = {
   before: `
 precision mediump float;
 

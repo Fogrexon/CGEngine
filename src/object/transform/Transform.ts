@@ -29,14 +29,26 @@ class Transform {
 
   lookAt(target: Vector3): Transform {
     const z: Vector3 = this.position.subtract(target).normalize();
-    const x: Vector3 = (new Vector3(0, 1, 0)).cross(z).normalize();
+    const x: Vector3 = new Vector3(0, 1, 0).cross(z).normalize();
     const y: Vector3 = z.cross(x).normalize();
 
     const mat4: Matrix4 = new Matrix4([
-      x.x, x.y, x.z, 0,
-      y.x, y.y, y.z, 0,
-      z.x, z.y, z.z, 0,
-      0, 0, 0, 1,
+      x.x,
+      x.y,
+      x.z,
+      0,
+      y.x,
+      y.y,
+      y.z,
+      0,
+      z.x,
+      z.y,
+      z.z,
+      0,
+      0,
+      0,
+      0,
+      1,
     ]);
 
     this.rotation = this.rotation.fromMatrix(mat4);
@@ -55,16 +67,40 @@ class Transform {
   getMatrix(): Matrix4 {
     if (!this.needUpdate()) return this.matrix;
     const p = new Matrix4([
-      1, 0, 0, 0,
-      0, 1, 0, 0,
-      0, 0, 1, 0,
-      this.position.x, this.position.y, this.position.z, 1,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      0,
+      0,
+      0,
+      1,
+      0,
+      this.position.x,
+      this.position.y,
+      this.position.z,
+      1,
     ]);
     const s = new Matrix4([
-      this.scale.x, 0, 0, 0,
-      0, this.scale.y, 0, 0,
-      0, 0, this.scale.z, 0,
-      0, 0, 0, 1,
+      this.scale.x,
+      0,
+      0,
+      0,
+      0,
+      this.scale.y,
+      0,
+      0,
+      0,
+      0,
+      this.scale.z,
+      0,
+      0,
+      0,
+      0,
+      1,
     ]);
     const r = this.rotation.matrix();
 

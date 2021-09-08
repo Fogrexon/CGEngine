@@ -1,7 +1,4 @@
-const createVBO = (
-  gl: WebGLRenderingContext,
-  data: number[],
-): WebGLBuffer => {
+const createVBO = (gl: WebGLRenderingContext, data: number[]): WebGLBuffer => {
   const vbo: WebGLBuffer = <WebGLBuffer>gl.createBuffer();
   gl.bindBuffer(gl.ARRAY_BUFFER, vbo);
   gl.bufferData(gl.ARRAY_BUFFER, new Float32Array(data), gl.STATIC_DRAW);
@@ -9,10 +6,7 @@ const createVBO = (
   return vbo;
 };
 
-const createIBO = (
-  gl: WebGLRenderingContext,
-  index: number[],
-): WebGLBuffer => {
+const createIBO = (gl: WebGLRenderingContext, index: number[]): WebGLBuffer => {
   const ibo: WebGLBuffer = <WebGLBuffer>gl.createBuffer();
 
   gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, ibo);
@@ -31,31 +25,31 @@ class Geometry {
 
   private normal: number[];
 
-  private uv : number[];
+  private uv: number[];
 
-  private index : number[];
+  private index: number[];
 
-  private vertexLocation: GLint = -1;
+  private vertexLocation: number = -1;
 
-  private tangentLocation: GLint = -1;
+  private tangentLocation: number = -1;
 
-  private bitangentLocation: GLint = -1;
+  private bitangentLocation: number = -1;
 
-  private normalLocation: GLint = -1;
+  private normalLocation: number = -1;
 
-  private uvLocation : GLint = -1;
+  private uvLocation: number = -1;
 
-  private vertexVBO : WebGLBuffer | null = null;
+  private vertexVBO: WebGLBuffer | null = null;
 
-  private tangentVBO : WebGLBuffer | null = null;
+  private tangentVBO: WebGLBuffer | null = null;
 
-  private bitangentVBO : WebGLBuffer | null = null;
+  private bitangentVBO: WebGLBuffer | null = null;
 
-  private normalVBO : WebGLBuffer | null = null;
+  private normalVBO: WebGLBuffer | null = null;
 
-  private uvVBO : WebGLBuffer | null = null;
+  private uvVBO: WebGLBuffer | null = null;
 
-  private indexIBO : WebGLBuffer | null = null;
+  private indexIBO: WebGLBuffer | null = null;
 
   constructor(
     vertex: number[],
@@ -74,10 +68,7 @@ class Geometry {
   }
 
   // Attribute情報の設定
-  setupAttribute(
-    gl: WebGLRenderingContext,
-    program: WebGLProgram,
-  ): void {
+  setupAttribute(gl: WebGLRenderingContext, program: WebGLProgram): void {
     this.vertexLocation = gl.getAttribLocation(program, 'vertex');
     this.normalLocation = gl.getAttribLocation(program, 'normal');
     this.uvLocation = gl.getAttribLocation(program, 'uv');
@@ -93,9 +84,7 @@ class Geometry {
     }
   }
 
-  attachAttribute(
-    gl:WebGLRenderingContext,
-  ): void {
+  attachAttribute(gl: WebGLRenderingContext): void {
     gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexVBO);
     gl.enableVertexAttribArray(this.vertexLocation);
     gl.vertexAttribPointer(this.vertexLocation, 3, gl.FLOAT, false, 0, 0);

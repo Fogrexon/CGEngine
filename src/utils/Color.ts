@@ -1,4 +1,3 @@
-
 class Color {
   public r: number;
 

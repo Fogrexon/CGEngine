@@ -20,7 +20,7 @@ class Point extends Light {
     this.decay = _decay || 1;
   }
 
-  searchLight(lightsList: LightsUniform):void {
+  searchLight(lightsList: LightsUniform): void {
     lightsList.uPointLight.push({
       pos: new Vector3(0, 0, 0),
       color: this.color,
@@ -32,16 +32,10 @@ class Point extends Light {
   }
 
   prepare(parentMat: Matrix4, lightsList: LightsUniform): void {
-    this.thisMat = <Matrix4>parentMat.multiply(
-      this.transform.getMatrix(),
-    );
+    this.thisMat = <Matrix4>parentMat.multiply(this.transform.getMatrix());
 
     lightsList.uPointLight.push({
-      pos: new Vector3(
-        this.thisMat.matrix[12],
-        this.thisMat.matrix[13],
-        this.thisMat.matrix[14],
-      ),
+      pos: new Vector3(this.thisMat.matrix[12], this.thisMat.matrix[13], this.thisMat.matrix[14]),
       color: this.color,
       distance: this.distance,
       decay: this.decay,

@@ -14,23 +14,16 @@ class Empty {
     this.children = [];
   }
 
-  searchLight(
-    list: LightsUniform,
-  ): void {
+  searchLight(list: LightsUniform): void {
     this.children.map((child) => child.searchLight(list));
   }
 
-  initialize(
-    gl: WebGLRenderingContext,
-    defaultUniforms: {[key: string]: UniformType},
-  ): void {
+  initialize(gl: WebGLRenderingContext, defaultUniforms: { [key: string]: UniformType }): void {
     this.children.map((child) => child.initialize(gl, defaultUniforms));
   }
 
   prepare(parentMat: Matrix4, lightList: LightsUniform): void {
-    this.thisMat = <Matrix4>parentMat.multiply(
-      this.transform.getMatrix(),
-    );
+    this.thisMat = <Matrix4>parentMat.multiply(this.transform.getMatrix());
     this.children.map((child) => child.prepare(this.thisMat, lightList));
   }
 
