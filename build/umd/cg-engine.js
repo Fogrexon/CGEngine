@@ -551,11 +551,29 @@
 
     }
 
-    class PerspectiveCamera {
-      constructor(angle, aspect, near, far) {
+    class Camera {
+      constructor() {
+        this.transform = new Transform();
         this.viewMatrix = new Matrix4();
         this.projectionMatrix = new Matrix4();
-        this.transform = new Transform();
+      }
+
+      getMatrix() {
+        this.viewMatrix = this.transform.needUpdate() ? this.transform.getMatrix().inverse() : this.viewMatrix;
+        return {
+          vMatrix: this.viewMatrix,
+          pMatrix: this.projectionMatrix,
+          uCameraPos: this.transform.position
+        };
+      }
+
+    }
+
+    class PerspectiveCamera extends Camera {
+      constructor(angle, aspect, near, far) {
+        super();
+        this.viewMatrix = new Matrix4();
+        this.projectionMatrix = new Matrix4();
         this.angle = angle;
         this.aspect = aspect;
         this.near = near;
@@ -571,22 +589,13 @@
         this.projectionMatrix.set([scaleX, 0, 0, 0, 0, scaleY, 0, 0, 0, 0, scaleZ, -1, 0, 0, transZ, 0]);
       }
 
-      getMatrix() {
-        this.viewMatrix = this.transform.needUpdate() ? this.transform.getMatrix().inverse() : this.viewMatrix;
-        return {
-          vMatrix: this.viewMatrix,
-          pMatrix: this.projectionMatrix,
-          uCameraPos: this.transform.position
-        };
-      }
-
     }
 
-    class OrthographicCamera {
+    class OrthographicCamera extends Camera {
       constructor(height, aspect, near, far) {
+        super();
         this.viewMatrix = new Matrix4();
         this.projectionMatrix = new Matrix4();
-        this.transform = new Transform();
         this.height = height;
         this.aspect = aspect;
         this.near = near;
@@ -600,15 +609,6 @@
         const scaleZ = 2.0 / (this.far - this.near);
         const transZ = (this.far + this.near) / (this.far - this.near);
         this.projectionMatrix.set([scaleX, 0, 0, 0, 0, scaleY, 0, 0, 0, 0, -scaleZ, 0, 0, 0, -transZ, 1]);
-      }
-
-      getMatrix() {
-        this.viewMatrix = this.transform.needUpdate() ? this.transform.getMatrix().inverse() : this.viewMatrix;
-        return {
-          vMatrix: this.viewMatrix,
-          pMatrix: this.projectionMatrix,
-          uCameraPos: this.transform.position
-        };
       }
 
     }
@@ -1730,6 +1730,7 @@ void main(void){
 
     }
 
+    exports.Camera = Camera;
     exports.Color = Color;
     exports.Empty = Empty;
     exports.Entity = Entity;

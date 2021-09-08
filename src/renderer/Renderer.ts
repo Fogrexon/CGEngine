@@ -1,5 +1,5 @@
 import { Color } from '../utils/Color';
-import { CameraType } from '../camera/Camera';
+import { Camera } from '../camera/Camera';
 import { Matrix4 } from '../utils/Matrix';
 import { ObjectToGLStructure } from '../utils/ObjectToGLStructure';
 import { LightsUniform, originalLightsUniform } from '../light/Primitives';
@@ -48,7 +48,7 @@ class Renderer {
     this.entities.initialize(this.gl, defaultUniform);
   }
 
-  render(camera: CameraType) {
+  render(camera: Camera) {
     console.assert(!!this.entities, 'Entities are not initialized');
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.depthFunc(this.gl.LEQUAL);
