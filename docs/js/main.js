@@ -1,5 +1,3 @@
-import * as CGEngine from './src/main';
-
 window.addEventListener('load', () => {
   const canvas = document.getElementById('cnv');
 
@@ -77,7 +75,7 @@ window.addEventListener('load', () => {
     CGEngine.GeometryPrimitives.Plane(),
     new CGEngine.Material(
       CGEngine.ShaderPrimitives.BasicVertex,
-      CGEngine.ShaderPrimitives.PhysicalFragment(CGEngine.PBRFunctions.Diffuse.NormalizedLambert + CGEngine.PBRFunctions.BRDF.KajiyaKay),
+      CGEngine.ShaderPrimitives.PhysicalFragment(CGEngine.PBRFunctions.DiffuseBRDF.NormalizedLambert + CGEngine.PBRFunctions.SpecularBRDF.KajiyaKay),
       {
         albedo: new CGEngine.Vector4(1, 1, 1, 1),
         metallic: 0.9,
