@@ -1,4 +1,6 @@
 export * from './camera/Camera';
+export * from './camera/PerspectiveCamera';
+export * from './camera/OrthographicCamera';
 export * from './object/Empty';
 export * from './object/Entity';
 export * from './light/Light';

@@ -1,24 +1,22 @@
-import { Transform } from '../object/transform/Transform';
 import { Matrix4 } from '../utils/Matrix';
-import { Vector3 } from '../utils/Vector';
+import { Camera } from './Camera'
 
-class PerspectiveCamera {
-  transform: Transform;
+class PerspectiveCamera extends Camera {
 
-  angle: number;
+  public angle: number;
 
-  aspect: number;
+  public aspect: number;
 
-  near: number;
+  public near: number;
 
-  far: number;
+  public far: number;
 
   viewMatrix: Matrix4 = new Matrix4();
 
   projectionMatrix: Matrix4 = new Matrix4();
 
   constructor(angle: number, aspect: number, near: number, far: number) {
-    this.transform = new Transform();
+    super();
     this.angle = angle;
     this.aspect = aspect;
     this.near = near;
@@ -26,7 +24,7 @@ class PerspectiveCamera {
     this.updateProjectionMatrix();
   }
 
-  updateProjectionMatrix(): void {
+  public updateProjectionMatrix(): void {
     const scaleX: number = 1 / Math.tan(this.angle / 2) / this.aspect;
     const scaleY: number = 1 / Math.tan(this.angle / 2);
     const scaleZ: number = (this.near + this.far) / (this.near - this.far);
@@ -50,17 +48,6 @@ class PerspectiveCamera {
       transZ,
       0,
     ]);
-  }
-
-  getMatrix(): { vMatrix: Matrix4; pMatrix: Matrix4; uCameraPos: Vector3 } {
-    this.viewMatrix = this.transform.needUpdate()
-      ? this.transform.getMatrix().inverse()
-      : this.viewMatrix;
-    return {
-      vMatrix: this.viewMatrix,
-      pMatrix: this.projectionMatrix,
-      uCameraPos: this.transform.position,
-    };
   }
 }
 

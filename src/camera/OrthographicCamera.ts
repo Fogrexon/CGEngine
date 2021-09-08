@@ -1,24 +1,22 @@
-import { Transform } from '../object/transform/Transform';
 import { Matrix4 } from '../utils/Matrix';
-import { Vector3 } from '../utils/Vector';
+import { Camera } from './Camera';
 
-class OrthographicCamera {
-  transform: Transform;
+class OrthographicCamera extends Camera {
 
-  height: number;
+  private height: number;
 
-  aspect: number;
+  private aspect: number;
 
-  near: number;
+  private near: number;
 
-  far: number;
+  private far: number;
 
   viewMatrix: Matrix4 = new Matrix4();
 
   projectionMatrix: Matrix4 = new Matrix4();
 
   constructor(height: number, aspect: number, near: number, far: number) {
-    this.transform = new Transform();
+    super();
     this.height = height;
     this.aspect = aspect;
     this.near = near;
@@ -50,17 +48,6 @@ class OrthographicCamera {
       -transZ,
       1,
     ]);
-  }
-
-  getMatrix(): { vMatrix: Matrix4; pMatrix: Matrix4; uCameraPos: Vector3 } {
-    this.viewMatrix = this.transform.needUpdate()
-      ? this.transform.getMatrix().inverse()
-      : this.viewMatrix;
-    return {
-      vMatrix: this.viewMatrix,
-      pMatrix: this.projectionMatrix,
-      uCameraPos: this.transform.position,
-    };
   }
 }
 
