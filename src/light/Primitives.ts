@@ -46,6 +46,4 @@ const originalLightsUniform: string = JSON.stringify({
   uAmbientNum: 0,
 });
 
-export {
-  Directional, Point, Spot, Ambient, LightsUniform, originalLightsUniform,
-};
+export { Directional, Point, Spot, Ambient, LightsUniform, originalLightsUniform };

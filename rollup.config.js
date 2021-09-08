@@ -7,7 +7,7 @@ const extensions = ['.ts', '.js'];
 export default [
 
   {
-    input: 'src/index.ts',
+    input: 'src/main.ts',
 
     preserveModules: true,
 
@@ -20,9 +20,6 @@ export default [
 
     plugins: [
       glslify(),
-      postcss({
-        extract: true,
-      }),
       babel({
         extensions,
       }),
@@ -35,7 +32,7 @@ export default [
   },
 
   {
-    input: 'src/index.ts',
+    input: 'src/main.ts',
     preserveModules: true,
     output: {
       dir: 'build/esm',
@@ -46,9 +43,6 @@ export default [
 
     plugins: [
       glslify(),
-      postcss({
-        extract: true,
-      }),
       babel({
         extensions,
       }),
@@ -61,19 +55,16 @@ export default [
   },
 
   {
-    input: 'src/index.ts',
+    input: 'src/main.ts',
     output: {
-      file: 'build/umd/graphim.js',
+      file: 'build/umd/cg-engine.js',
       // dir: 'build/umd',
       format: 'umd',
-      name: 'Graphim',
+      name: 'CGEngine',
       sourcemap: true,
     },
     plugins: [
       glslify(),
-      postcss({
-        extract: true,
-      }),
       babel({
         extensions,
       }),

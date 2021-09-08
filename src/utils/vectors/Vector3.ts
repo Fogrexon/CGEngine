@@ -67,7 +67,7 @@ class Vector3 {
     return new Vector3(
       this.y * a.z - this.z * a.y,
       this.z * a.x - this.x * a.z,
-      this.x * a.y - this.y * a.x,
+      this.x * a.y - this.y * a.x
     );
   }
 

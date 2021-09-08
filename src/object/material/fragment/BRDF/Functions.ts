@@ -190,6 +190,4 @@ vec3 SpecularBRDF(in NormalizedLight normalizedLight) {
 `,
 };
 
-export {
-  DiffuseBRDF, Distribution, GeometricalAttenuation, Fresnel, SpecularBRDF,
-};
+export { DiffuseBRDF, Distribution, GeometricalAttenuation, Fresnel, SpecularBRDF };

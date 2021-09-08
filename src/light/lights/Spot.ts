@@ -22,7 +22,7 @@ class Spot extends Light {
     _coneCos: number,
     _penumbraCos: number,
     _distance: number,
-    _decay?: number,
+    _decay?: number
   ) {
     super();
     this.color = _color;

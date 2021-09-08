@@ -143,7 +143,7 @@ class Matrix4 {
         m[0] * mul.x + m[4] * mul.y + m[8] * mul.z + m[12] * mul.w,
         m[1] * mul.x + m[5] * mul.y + m[9] * mul.z + m[13] * mul.w,
         m[2] * mul.x + m[6] * mul.y + m[10] * mul.z + m[14] * mul.w,
-        m[3] * mul.x + m[7] * mul.y + m[11] * mul.z + m[15] * mul.w,
+        m[3] * mul.x + m[7] * mul.y + m[11] * mul.z + m[15] * mul.w
       );
     }
     return new Matrix4([

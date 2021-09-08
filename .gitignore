@@ -110,4 +110,6 @@ temp/
 
 # End of https://www.gitignore.io/api/node
 
-build
+# add
+build/commonjs/
+build/esm/

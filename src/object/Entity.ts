@@ -18,8 +18,8 @@ class Entity extends Empty {
 
   initialize(gl: WebGLRenderingContext, defaultUniforms: { [key: string]: UniformType }): void {
     this.program = <WebGLProgram>gl.createProgram();
-    (<Material> this.material).initialize(gl, this.program, defaultUniforms);
-    (<Geometry> this.geometry).setupAttribute(gl, this.program);
+    (<Material>this.material).initialize(gl, this.program, defaultUniforms);
+    (<Geometry>this.geometry).setupAttribute(gl, this.program);
     super.initialize(gl, defaultUniforms);
   }
 

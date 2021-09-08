@@ -58,9 +58,9 @@ class Transform {
 
   needUpdate(): boolean {
     return !(
-      this.position.equal(this.prevPos)
-      && this.rotation.equal(this.prevRot)
-      && this.scale.equal(this.prevSca)
+      this.position.equal(this.prevPos) &&
+      this.rotation.equal(this.prevRot) &&
+      this.scale.equal(this.prevSca)
     );
   }
 

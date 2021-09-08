@@ -31,11 +31,11 @@ class Material {
   initialize(gl: WebGLRenderingContext, program: WebGLProgram, defaultUniform: any) {
     this.vertexShader = gl.createShader(gl.VERTEX_SHADER);
     this.fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
-    compileShader(gl, <WebGLShader> this.vertexShader, this.vertexSource);
-    compileShader(gl, <WebGLShader> this.fragmentShader, this.fragmentSource);
+    compileShader(gl, <WebGLShader>this.vertexShader, this.vertexSource);
+    compileShader(gl, <WebGLShader>this.fragmentShader, this.fragmentSource);
 
-    gl.attachShader(program, <WebGLShader> this.vertexShader);
-    gl.attachShader(program, <WebGLShader> this.fragmentShader);
+    gl.attachShader(program, <WebGLShader>this.vertexShader);
+    gl.attachShader(program, <WebGLShader>this.fragmentShader);
 
     gl.linkProgram(program);
 

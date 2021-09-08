@@ -57,7 +57,7 @@ class Geometry {
     uv: number[],
     index: number[],
     tangent: number[],
-    bitangent: number[],
+    bitangent: number[]
   ) {
     this.vertex = vertex;
     this.normal = normal;
