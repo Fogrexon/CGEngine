@@ -1,5 +1,5 @@
 import { Vector4 } from '../Vector';
-import { Vector3 } from '../vectors/Vector3';
+import { Vector3 } from '../Vectors/Vector3';
 
 class Matrix4 {
   matrix: number[] = [

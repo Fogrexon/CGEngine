@@ -1,1 +1,1 @@
-export * from './matrixes/Matrix4';
+export * from './Matrixes/Matrix4';

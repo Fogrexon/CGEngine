@@ -1,5 +1,5 @@
 import { Vector3, Vector4 } from './Vector';
-import { Matrix4 } from './matrixes/Matrix4';
+import { Matrix4 } from './Matrixes/Matrix4';
 
 class Quartanion {
   v: Vector3;
