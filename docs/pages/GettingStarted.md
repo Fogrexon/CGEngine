@@ -1,13 +1,18 @@
 # Getting Started
+## build engine
+```cli
+$ npm i
+$ npm run build
+```
 ## install engine
 ### commonjs
 `build/commonjs/*`をプロジェクトにコピー
-```cli
+```javascript
 const CGEngine = require('./**/main.js')
 ```
 ### ESModules
 `build/esm/*`をプロジェクトにコピー
-```cli
+```javascript
 import * as CGEngine from './**/main.js';
 ```
 ### umd
@@ -34,6 +39,7 @@ const camera = new CGEngine.PerspectiveCamera(Math.PI * 0.5, 1, 0.01, 1000);
 // 平行投影法 描画範囲の高さ, 縦横比, near, far
 const camera = CGEngine.OrthographicCamera(10, 1, 0.01, 1000);
 
+// transformのセット
 camera.transform.position.set(0, 0, -10);
 caemra.transform.lookAt(new CGEngine.Vector3(0.0, 0.0, 0.0));
 ```
@@ -57,6 +63,7 @@ const material = new CGEngine.Material(
 )
 const entity = new CGEngine.Entity(geometry, material);
 
+// transformの変更
 entity.transform.position.set(0, 0, 0);
 entity.transform.scale.set(1, 1.5, 0.8);
 entity.transform.rotation.eularAngle(Math.PI * 0.2, Math.PI * 0.1, Math.PI * 0.7);

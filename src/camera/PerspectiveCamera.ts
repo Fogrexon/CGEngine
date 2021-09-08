@@ -3,13 +3,13 @@ import { Camera } from './Camera'
 
 class PerspectiveCamera extends Camera {
 
-  angle: number;
+  public angle: number;
 
-  aspect: number;
+  public aspect: number;
 
-  near: number;
+  public near: number;
 
-  far: number;
+  public far: number;
 
   viewMatrix: Matrix4 = new Matrix4();
 

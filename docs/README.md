@@ -3,10 +3,6 @@
 CGEngineは基本的な3DCG機能を持ったWebGLのラッパーライブラリです。
 3DCGの勉強と物理ベースレンダリングの学習のために制作しました。
 
-## GettingStarted
-
-[GettingStarted](/pages/GettingStarted.md)
-
 ## Example
 
 [デモ](https://fogrexon.github.io/CGEngine/docs/index.html)
