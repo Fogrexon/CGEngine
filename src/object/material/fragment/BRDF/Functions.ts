@@ -1,4 +1,4 @@
-const DiffuseBRDF: {[key: string]: string} = {
+const DiffuseBRDF: { [key: string]: string } = {
   Disney: `
 float fresnel(in float u, in float f0, in float f90) {
   return f0 + (f90 - f0) * pow(1.0 - u, 5.0); 
@@ -68,7 +68,7 @@ return vec3(0.0);
 `,
 };
 
-const Distribution: {[key: string]: string} = {
+const Distribution: { [key: string]: string } = {
   BlinnPhong: `
 float D(in float a, in vec3 n, in vec3 l, in vec3 v, in vec3 h) {
   float ap = a * 50.0;
@@ -87,10 +87,9 @@ float D(in float a, in vec3 n, in vec3 l, in vec3 v, in vec3 h) {
   return (a*a)/(PI * pow(dotnh * dotnh * (a * a - 1.0) + 1.0, 2.0));
 }
   `,
-
 };
 
-const GeometricalAttenuation: {[key: string]: string} = {
+const GeometricalAttenuation: { [key: string]: string } = {
   General: `
 float G(in float a, in vec3 n, in vec3 l, in vec3 v, in vec3 h) {
   float dotnh = saturate(dot(n,h));
@@ -120,7 +119,7 @@ float G(in float a, in vec3 n, in vec3 l, in vec3 v, in vec3 h) {
   `,
 };
 
-const Fresnel: {[key: string]: string} = {
+const Fresnel: { [key: string]: string } = {
   Schlick: `
 vec3 F(in vec3 light, in vec3 n, in vec3 l, in vec3 v, in vec3 h) {
   return light + (1.0 - light) * pow(1.0 - saturate(dot(v, h)), 5.0);
@@ -128,7 +127,7 @@ vec3 F(in vec3 light, in vec3 n, in vec3 l, in vec3 v, in vec3 h) {
 `,
 };
 
-const SpecularBRDF: {[key: string]: string} = {
+const SpecularBRDF: { [key: string]: string } = {
   Four: `
 vec3 SpecularBRDF(in NormalizedLight normalizedLight) {
   vec3 n = vNormal;
@@ -191,10 +190,4 @@ vec3 SpecularBRDF(in NormalizedLight normalizedLight) {
 `,
 };
 
-export {
-  DiffuseBRDF,
-  Distribution,
-  GeometricalAttenuation,
-  Fresnel,
-  SpecularBRDF,
-};
+export { DiffuseBRDF, Distribution, GeometricalAttenuation, Fresnel, SpecularBRDF };

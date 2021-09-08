@@ -8,31 +8,31 @@ import { Integer } from '../utils/Integer';
 
 type LightsUniform = {
   uDirectionalLight: {
-    dir: Vector3,
-    color: Color,
-  }[],
-  uDirectionalNum: number | Integer,
+    dir: Vector3;
+    color: Color;
+  }[];
+  uDirectionalNum: number | Integer;
   uPointLight: {
-    pos: Vector3,
-    color: Color,
-    distance: number,
-    decay: number,
-  }[],
-  uPointNum: number | Integer,
+    pos: Vector3;
+    color: Color;
+    distance: number;
+    decay: number;
+  }[];
+  uPointNum: number | Integer;
   uSpotLight: {
-    pos: Vector3,
-    dir: Vector3,
-    color: Color,
-    decay: number,
-    distance: number,
-    coneCos: number,
-    penumbraCos: number,
-  }[],
-  uSpotNum: number | Integer,
+    pos: Vector3;
+    dir: Vector3;
+    color: Color;
+    decay: number;
+    distance: number;
+    coneCos: number;
+    penumbraCos: number;
+  }[];
+  uSpotNum: number | Integer;
   uAmbientLight: {
-    color: Color,
-  }[],
-  uAmbientNum: number | Integer
+    color: Color;
+  }[];
+  uAmbientNum: number | Integer;
 };
 
 const originalLightsUniform: string = JSON.stringify({
@@ -46,11 +46,4 @@ const originalLightsUniform: string = JSON.stringify({
   uAmbientNum: 0,
 });
 
-export {
-  Directional,
-  Point,
-  Spot,
-  Ambient,
-  LightsUniform,
-  originalLightsUniform,
-};
+export { Directional, Point, Spot, Ambient, LightsUniform, originalLightsUniform };

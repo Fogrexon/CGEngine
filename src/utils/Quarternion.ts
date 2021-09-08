@@ -23,7 +23,7 @@ class Quartanion {
     this.v = new Vector3(
       axis.x * Math.sin(angle / 2),
       axis.y * Math.sin(angle / 2),
-      axis.z * Math.sin(angle / 2),
+      axis.z * Math.sin(angle / 2)
     );
     this.w = Math.cos(angle / 2);
     return this;
@@ -40,7 +40,7 @@ class Quartanion {
     this.v = new Vector3(
       xc * yc * zc + xs * ys * zs,
       xs * yc * zc - xc * ys * zs,
-      xc * ys * zc + xs * yc * zs,
+      xc * ys * zc + xs * yc * zs
     );
     this.w = xc * yc * zs - xs * ys * zc;
     return this;
@@ -50,10 +50,22 @@ class Quartanion {
     const { x, y, z } = this.v;
     const { w } = this;
     return new Matrix4([
-      x ** 2 - y ** 2 - z ** 2 + w ** 2, 2 * (x * y + z * w), 2 * (x * z - y * w), 0,
-      2 * (x * y - z * w), y ** 2 - x ** 2 - z ** 2 + w ** 2, 2 * (y * z + x * w), 0,
-      2 * (x * z + y * w), 2 * (y * z - x * w), z ** 2 + w ** 2 - x ** 2 - y ** 2, 0,
-      0, 0, 0, 1,
+      x ** 2 - y ** 2 - z ** 2 + w ** 2,
+      2 * (x * y + z * w),
+      2 * (x * z - y * w),
+      0,
+      2 * (x * y - z * w),
+      y ** 2 - x ** 2 - z ** 2 + w ** 2,
+      2 * (y * z + x * w),
+      0,
+      2 * (x * z + y * w),
+      2 * (y * z - x * w),
+      z ** 2 + w ** 2 - x ** 2 - y ** 2,
+      0,
+      0,
+      0,
+      0,
+      1,
     ]);
   }
 
@@ -82,12 +94,12 @@ class Quartanion {
     if (element[maxIndex] < 0) {
       this.v = new Vector3(0, 0, 0);
       this.w = 1;
-      console.log('Wrong matrix');
+      console.error('Wrong matrix');
       return this;
     }
 
     const q: number[] = [0, 0, 0, 0];
-    let v: number = (Math.sqrt(element[maxIndex]) * 0.5 + 0.00001);
+    let v: number = Math.sqrt(element[maxIndex]) * 0.5 + 0.00001;
     q[maxIndex] = v;
     v = 0.25 / v;
 
@@ -128,7 +140,7 @@ class Quartanion {
     const len = Math.sqrt(this.v.x ** 2 + this.v.y ** 2 + this.v.z ** 2 + this.w ** 2);
     return new Quartanion(
       new Vector3(this.v.x / len, this.v.y / len, this.v.z / len),
-      this.w / len,
+      this.w / len
     );
   }
 
@@ -137,10 +149,10 @@ class Quartanion {
     if (a instanceof Quartanion) {
       return new Quartanion(
         this.v.cross(a.v).add(this.v.multiply(a.w)).add(a.v.multiply(this.w)),
-        this.w * a.w - this.v.dot(a.v),
+        this.w * a.w - this.v.dot(a.v)
       );
     }
-    return <Vector4> this.matrix().multiply(a);
+    return <Vector4>this.matrix().multiply(a);
   }
 
   public equal(a: Quartanion): boolean {

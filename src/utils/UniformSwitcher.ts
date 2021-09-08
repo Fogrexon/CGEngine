@@ -3,24 +3,21 @@ import { Matrix4 } from './Matrix';
 import { Color } from './Color';
 import { Integer } from './Integer';
 
-type UniformType = (
-  number | Vector2 | Vector3 | Vector4 | Color | Matrix4 | Integer | null
-);
+type UniformType = number | Vector2 | Vector3 | Vector4 | Color | Matrix4 | Integer | null;
 
-const isUniformInstance = (a: any) => (
-  (typeof a === 'number')
-    || (a instanceof Vector2)
-    || (a instanceof Vector3)
-    || (a instanceof Vector4)
-    || (a instanceof Color)
-    || (a instanceof Matrix4)
-    || (a instanceof Integer)
-);
+const isUniformInstance = (a: any) =>
+  typeof a === 'number' ||
+  a instanceof Vector2 ||
+  a instanceof Vector3 ||
+  a instanceof Vector4 ||
+  a instanceof Color ||
+  a instanceof Matrix4 ||
+  a instanceof Integer;
 
 const UniformSwitcher = (
   gl: WebGLRenderingContext,
   uniLocation: WebGLUniformLocation | null,
-  data: UniformType,
+  data: UniformType
 ): void => {
   if (data instanceof Vector2) {
     gl.uniform2fv(uniLocation, data.getArray());

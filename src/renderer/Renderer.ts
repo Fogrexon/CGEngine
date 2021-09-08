@@ -1,6 +1,5 @@
 import { Color } from '../utils/Color';
 import { CameraType } from '../camera/Camera';
-import { Entity } from '../object/Entity';
 import { Matrix4 } from '../utils/Matrix';
 import { ObjectToGLStructure } from '../utils/ObjectToGLStructure';
 import { LightsUniform, originalLightsUniform } from '../light/Primitives';
@@ -8,26 +7,25 @@ import { Empty } from '../object/Empty';
 import { UniformType } from '../utils/UniformSwitcher';
 import { Integer } from '../utils/Integer';
 
-interface RendererParameter
-{
-  canvas : HTMLCanvasElement;
-  clearColor : Color | undefined;
-  clearDepth : number | undefined;
+interface RendererParameter {
+  canvas: HTMLCanvasElement;
+  clearColor: Color | undefined;
+  clearDepth: number | undefined;
 }
 
 class Renderer {
-  private parameter : RendererParameter;
+  private parameter: RendererParameter;
 
-  public canvas : HTMLCanvasElement;
+  public canvas: HTMLCanvasElement;
 
-  private gl : WebGLRenderingContext;
+  private gl: WebGLRenderingContext;
 
   entities: Empty | null = null;
 
   constructor(_parameter: RendererParameter) {
     this.parameter = _parameter;
     this.canvas = this.parameter.canvas;
-    this.gl = <WebGLRenderingContext> this.canvas.getContext('webgl');
+    this.gl = <WebGLRenderingContext>this.canvas.getContext('webgl');
     this.parameter.clearColor = this.parameter.clearColor || new Color(0.0, 0.0, 0.0, 1.0);
     this.parameter.clearDepth = this.parameter.clearDepth || 1.0;
   }
@@ -56,9 +54,9 @@ class Renderer {
     this.gl.depthFunc(this.gl.LEQUAL);
     this.gl.enable(this.gl.CULL_FACE);
 
-    const clearColor: Color = <Color> this.parameter.clearColor;
+    const clearColor: Color = <Color>this.parameter.clearColor;
     this.gl.clearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
-    this.gl.clearDepth(<number> this.parameter.clearDepth);
+    this.gl.clearDepth(<number>this.parameter.clearDepth);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT || this.gl.DEPTH_BUFFER_BIT);
 
     if (!this.entities) return;
@@ -70,10 +68,10 @@ class Renderer {
     lightsList.uSpotNum = new Integer(lightsList.uSpotNum);
     lightsList.uAmbientNum = new Integer(lightsList.uAmbientNum);
 
-    const lightsUniform: {[key: string]: UniformType} = ObjectToGLStructure(lightsList);
+    const lightsUniform: { [key: string]: UniformType } = ObjectToGLStructure(lightsList);
 
     const option: {
-      uniforms: {[key: string]: UniformType}
+      uniforms: { [key: string]: UniformType };
     } = {
       uniforms: {
         ...lightsUniform,

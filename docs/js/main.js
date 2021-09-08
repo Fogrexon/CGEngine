@@ -1,5 +1,3 @@
-import * as CGEngine from './src/main';
-
 window.addEventListener('load', () => {
   const canvas = document.getElementById('cnv');
 
@@ -13,7 +11,6 @@ window.addEventListener('load', () => {
   // const camera = new CGEngine.OrthographicCamera(10, canvas.width / canvas.height, 0.01, 1000);
 
   const pbr = CGEngine.PBRPrimitives.CookTorrance;
-  console.log(pbr);
 
   camera.transform.position.z = 1;
   camera.transform.position.y = 0;
@@ -78,7 +75,7 @@ window.addEventListener('load', () => {
     CGEngine.GeometryPrimitives.Plane(),
     new CGEngine.Material(
       CGEngine.ShaderPrimitives.BasicVertex,
-      CGEngine.ShaderPrimitives.PhysicalFragment(CGEngine.PBRFunctions.Diffuse.NormalizedLambert + CGEngine.PBRFunctions.BRDF.KajiyaKay),
+      CGEngine.ShaderPrimitives.PhysicalFragment(CGEngine.PBRFunctions.DiffuseBRDF.NormalizedLambert + CGEngine.PBRFunctions.SpecularBRDF.KajiyaKay),
       {
         albedo: new CGEngine.Vector4(1, 1, 1, 1),
         metallic: 0.9,

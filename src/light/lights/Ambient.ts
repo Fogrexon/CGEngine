@@ -13,7 +13,7 @@ class Ambient extends Light {
     this.color = color;
   }
 
-  searchLight(lightsList: LightsUniform):void {
+  searchLight(lightsList: LightsUniform): void {
     lightsList.uAmbientLight.push({
       color: new Color(1, 1, 1),
     });
@@ -22,9 +22,7 @@ class Ambient extends Light {
   }
 
   prepare(parentMat: Matrix4, lightsList: LightsUniform): void {
-    this.thisMat = <Matrix4>parentMat.multiply(
-      this.transform.getMatrix(),
-    );
+    this.thisMat = <Matrix4>parentMat.multiply(this.transform.getMatrix());
 
     lightsList.uAmbientLight.push({
       color: this.color,

@@ -22,7 +22,7 @@ class Spot extends Light {
     _coneCos: number,
     _penumbraCos: number,
     _distance: number,
-    _decay?: number,
+    _decay?: number
   ) {
     super();
     this.color = _color;
@@ -32,7 +32,7 @@ class Spot extends Light {
     this.distance = _distance;
   }
 
-  searchLight(lightsList: LightsUniform):void {
+  searchLight(lightsList: LightsUniform): void {
     lightsList.uSpotLight.push({
       pos: new Vector3(0, 0, 0),
       dir: new Vector3(0, -1, 0),
@@ -47,13 +47,11 @@ class Spot extends Light {
   }
 
   prepare(parentMat: Matrix4, lightsList: LightsUniform): void {
-    this.thisMat = <Matrix4>parentMat.multiply(
-      this.transform.getMatrix(),
-    );
+    this.thisMat = <Matrix4>parentMat.multiply(this.transform.getMatrix());
 
-    const dir: Vector4 = <Vector4> this.thisMat
-      .getScaleRotationMatrix()
-      .multiply(new Vector4(0, 0, -1, 0));
+    const dir: Vector4 = <Vector4>(
+      this.thisMat.getScaleRotationMatrix().multiply(new Vector4(0, 0, -1, 0))
+    );
     lightsList.uSpotLight.push({
       pos: new Vector3(this.thisMat.matrix[12], this.thisMat.matrix[13], this.thisMat.matrix[14]),
       dir: new Vector3(dir.x, dir.y, dir.z),
