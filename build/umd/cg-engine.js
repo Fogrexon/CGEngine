@@ -4,10 +4,16 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.CGEngine = {}));
 }(this, (function (exports) { 'use strict';
 
-    class Vector2 {
-      constructor(_x, _y) {
+    class UniformValue {}
+
+    class Vector2 extends UniformValue {
+      x;
+      y;
+
+      constructor(_x = 0, _y) {
+        super();
         this.x = _x;
-        this.y = _y;
+        this.y = _y || _x;
       }
 
       set(x, y) {
@@ -45,9 +51,11 @@
 
       divide(a) {
         if (a instanceof Vector2) {
+          // eslint-disable-next-line no-console
           console.assert(!(a.x === 0 || a.y === 0), 'cannot divide by zero');
           return new Vector2(this.x / a.x, this.y / a.y);
-        }
+        } // eslint-disable-next-line no-console
+
 
         console.assert(a !== 0, 'cannot divide by zero');
         return new Vector2(this.x / a, this.y / a);
@@ -61,11 +69,11 @@
         return this.x * a.x + this.y * a.y;
       }
 
-      equal(a) {
+      equals(a) {
         return this.x === a.x && this.y === a.y;
       }
 
-      copy() {
+      clone() {
         return new Vector2(this.x, this.y);
       }
 
@@ -73,10 +81,19 @@
         return new Float32Array([this.x, this.y]);
       }
 
+      setUniform(gl, uniLocation) {
+        gl.uniform2fv(uniLocation, this.getArray());
+      }
+
     }
 
-    class Vector3 {
+    class Vector3 extends UniformValue {
+      x;
+      y;
+      z;
+
       constructor(_x, _y, _z) {
+        super();
         this.x = _x;
         this.y = _y;
         this.z = _z;
@@ -118,9 +135,11 @@
 
       divide(a) {
         if (a instanceof Vector3) {
+          // eslint-disable-next-line no-console
           console.assert(!(a.x === 0 || a.y === 0 || a.z === 0), 'cannot divide by zero');
           return new Vector3(this.x / a.x, this.y / a.y, this.z / a.z);
-        }
+        } // eslint-disable-next-line no-console
+
 
         console.assert(a !== 0, 'cannot divide by zero');
         return new Vector3(this.x / a, this.y / a, this.z / a);
@@ -138,11 +157,11 @@
         return new Vector3(this.y * a.z - this.z * a.y, this.z * a.x - this.x * a.z, this.x * a.y - this.y * a.x);
       }
 
-      equal(a) {
+      equals(a) {
         return this.x === a.x && this.y === a.y && this.z === a.z;
       }
 
-      copy() {
+      clone() {
         return new Vector3(this.x, this.y, this.z);
       }
 
@@ -150,10 +169,20 @@
         return new Float32Array([this.x, this.y, this.z]);
       }
 
+      setUniform(gl, uniLocation) {
+        gl.uniform3fv(uniLocation, this.getArray());
+      }
+
     }
 
-    class Vector4 {
+    class Vector4 extends UniformValue {
+      x;
+      y;
+      z;
+      w;
+
       constructor(_x, _y, _z, _w) {
+        super();
         this.x = _x;
         this.y = _y;
         this.z = _z;
@@ -206,9 +235,11 @@
 
       divide(a) {
         if (a instanceof Vector4) {
+          // eslint-disable-next-line no-console
           console.assert(!(a.x === 0 || a.y === 0 || a.z === 0 || a.w === 0), 'cannot divide by zero');
           return new Vector4(this.x / a.x, this.y / a.y, this.z / a.z, this.w / a.w);
-        }
+        } // eslint-disable-next-line no-console
+
 
         console.assert(a !== 0, 'cannot divide by zero');
         return new Vector4(this.x / a, this.y / a, this.z / a, this.w / a);
@@ -222,11 +253,11 @@
         return this.x * a.x + this.y * a.y + this.z * a.z + this.w * a.w;
       }
 
-      equal(a) {
+      equals(a) {
         return this.x === a.x && this.y === a.y && this.z === a.z && this.w === a.w;
       }
 
-      copy() {
+      clone() {
         return new Vector4(this.x, this.y, this.z, this.w);
       }
 
@@ -234,11 +265,17 @@
         return new Float32Array([this.x, this.y, this.z, this.w]);
       }
 
+      setUniform(gl, uniLocation) {
+        gl.uniform4fv(uniLocation, this.getArray());
+      }
+
     }
 
-    class Matrix4 {
+    class Matrix4 extends UniformValue {
+      matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+
       constructor(numArray) {
-        this.matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+        super();
         if (numArray) this.set(numArray);
       } // 生成
 
@@ -359,10 +396,6 @@
         return new Matrix4(dest);
       }
 
-      getArray() {
-        return new Float32Array(this.matrix);
-      }
-
       getScaleRotationMatrix() {
         const m = this.matrix;
         return new Matrix4([m[0], m[1], m[2], 0, m[4], m[5], m[6], 0, m[8], m[9], m[10], 0, 0, 0, 0, 1]);
@@ -370,11 +403,32 @@
 
       getTranslateVector() {
         return new Vector3(this.matrix[12], this.matrix[13], this.matrix[14]);
+      } // override
+
+
+      equals(a) {
+        return this.matrix.reduce((prev, curr, index) => prev && curr === a.matrix[index], true);
+      }
+
+      clone() {
+        const m = this.matrix;
+        return new Matrix4([m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11], m[12], m[13], m[14], m[15]]);
+      }
+
+      getArray() {
+        return new Float32Array(this.matrix);
+      }
+
+      setUniform(gl, uniLocation) {
+        gl.uniformMatrix4fv(uniLocation, false, this.getArray());
       }
 
     }
 
     class Quartanion {
+      v;
+      w;
+
       constructor(v, w) {
         this.v = v || new Vector3(0, 0, 0);
         this.w = w || 1;
@@ -442,7 +496,8 @@
 
         if (element[maxIndex] < 0) {
           this.v = new Vector3(0, 0, 0);
-          this.w = 1;
+          this.w = 1; // eslint-disable-next-line no-console
+
           console.error('Wrong matrix');
           return this;
         }
@@ -503,17 +558,25 @@
         return this.matrix().multiply(a);
       }
 
-      equal(a) {
-        return this.v.equal(a.v) && this.w === a.w;
+      equals(a) {
+        return this.v.equals(a.v) && this.w === a.w;
       }
 
-      copy() {
-        return new Quartanion(this.v.copy(), this.w);
+      clone() {
+        return new Quartanion(this.v.clone(), this.w);
       }
 
     }
 
     class Transform {
+      position;
+      prevPos;
+      rotation;
+      prevRot;
+      scale;
+      prevSca;
+      matrix;
+
       constructor() {
         this.position = new Vector3(0, 0, 0);
         this.prevPos = new Vector3(0, 0, 0);
@@ -534,7 +597,7 @@
       }
 
       needUpdate() {
-        return !(this.position.equal(this.prevPos) && this.rotation.equal(this.prevRot) && this.scale.equal(this.prevSca));
+        return !(this.position.equals(this.prevPos) && this.rotation.equals(this.prevRot) && this.scale.equals(this.prevSca));
       }
 
       getMatrix() {
@@ -543,15 +606,19 @@
         const s = new Matrix4([this.scale.x, 0, 0, 0, 0, this.scale.y, 0, 0, 0, 0, this.scale.z, 0, 0, 0, 0, 1]);
         const r = this.rotation.matrix();
         this.matrix = p.multiply(r).multiply(s);
-        this.prevPos = this.position.copy();
-        this.prevRot = this.rotation.copy();
-        this.prevSca = this.scale.copy();
+        this.prevPos = this.position.clone();
+        this.prevRot = this.rotation.clone();
+        this.prevSca = this.scale.clone();
         return this.matrix;
       }
 
     }
 
     class Camera {
+      transform;
+      viewMatrix;
+      projectionMatrix;
+
       constructor() {
         this.transform = new Transform();
         this.viewMatrix = new Matrix4();
@@ -570,10 +637,15 @@
     }
 
     class PerspectiveCamera extends Camera {
+      angle;
+      aspect;
+      near;
+      far;
+      viewMatrix = new Matrix4();
+      projectionMatrix = new Matrix4();
+
       constructor(angle, aspect, near, far) {
         super();
-        this.viewMatrix = new Matrix4();
-        this.projectionMatrix = new Matrix4();
         this.angle = angle;
         this.aspect = aspect;
         this.near = near;
@@ -592,10 +664,15 @@
     }
 
     class OrthographicCamera extends Camera {
+      height;
+      aspect;
+      near;
+      far;
+      viewMatrix = new Matrix4();
+      projectionMatrix = new Matrix4();
+
       constructor(height, aspect, near, far) {
         super();
-        this.viewMatrix = new Matrix4();
-        this.projectionMatrix = new Matrix4();
         this.height = height;
         this.aspect = aspect;
         this.near = near;
@@ -614,9 +691,11 @@
     }
 
     class Empty {
+      transform = new Transform();
+      thisMat = new Matrix4();
+      children;
+
       constructor() {
-        this.transform = new Transform();
-        this.thisMat = new Matrix4();
         this.children = [];
       }
 
@@ -633,16 +712,19 @@
         this.children.map(child => child.prepare(this.thisMat, lightList));
       }
 
-      render(gl, option) {
-        this.children.map(child => child.render(gl, option));
+      render(gl, options) {
+        this.children.map(child => child.render(gl, options));
       }
 
     }
 
     class Entity extends Empty {
+      geometry;
+      material;
+      program = null;
+
       constructor(geometry, material) {
         super();
-        this.program = null;
         this.geometry = geometry;
         this.material = material;
       }
@@ -654,40 +736,59 @@
         super.initialize(gl, defaultUniforms);
       }
 
-      render(gl, option) {
-        this.material.uniform.mMatrix = this.thisMat;
-        this.material.uniform.rMatrix = this.thisMat.getScaleRotationMatrix();
-        this.material.uniform = { ...this.material.uniform,
-          ...option.uniforms
+      render(gl, options) {
+        this.material.uniforms.mMatrix = this.thisMat;
+        this.material.uniforms.rMatrix = this.thisMat.getScaleRotationMatrix();
+        this.material.uniforms = { ...this.material.uniforms,
+          ...options.uniforms
         };
         gl.useProgram(this.program);
         this.material.setUniforms(gl);
         this.geometry.attachAttribute(gl);
         gl.drawElements(gl.TRIANGLES, this.geometry.getIndexLength(), gl.UNSIGNED_SHORT, 0);
-        super.render(gl, option);
+        super.render(gl, options);
       }
 
     }
 
     class Light extends Empty {}
 
-    class Color {
-      constructor(_r, _g, _b, _a) {
+    class Color extends UniformValue {
+      r;
+      g;
+      b;
+      a;
+
+      constructor(_r, _g, _b, _a = 1.0) {
+        super();
         this.r = _r;
         this.g = _g;
         this.b = _b;
-        this.a = _a || 1.0;
+        this.a = _a;
+      }
+
+      equals(a) {
+        return this.r === a.r && this.g === a.g && this.b === a.b && this.a === a.a;
+      }
+
+      clone() {
+        return new Color(this.r, this.g, this.b, this.a);
       }
 
       getArray() {
         return new Float32Array([this.r, this.g, this.b, this.a]);
       }
 
+      setUniform(gl, uniLocation) {
+        gl.uniform4fv(uniLocation, this.getArray());
+      }
+
     }
 
     /* eslint-disable no-param-reassign */
-
     class Directional extends Light {
+      color;
+
       constructor(color) {
         super();
         this.color = color;
@@ -716,8 +817,11 @@
     }
 
     /* eslint-disable no-param-reassign */
-
     class Point extends Light {
+      color;
+      decay;
+      distance;
+
       constructor(_color, _distance, _decay) {
         super();
         this.color = _color;
@@ -751,8 +855,13 @@
     }
 
     /* eslint-disable no-param-reassign */
-
     class Spot extends Light {
+      color;
+      decay;
+      distance;
+      coneCos;
+      penumbraCos;
+
       constructor(_color, _coneCos, _penumbraCos, _distance, _decay) {
         super();
         this.color = _color;
@@ -795,8 +904,9 @@
     }
 
     /* eslint-disable no-param-reassign */
-
     class Ambient extends Light {
+      color;
+
       constructor(color) {
         super();
         this.color = color;
@@ -821,7 +931,7 @@
 
     }
 
-    const originalLightsUniform = JSON.stringify({
+    const createOriginalLightsUniform = () => ({
       uDirectionalLight: [],
       uDirectionalNum: 0,
       uPointLight: [],
@@ -834,11 +944,11 @@
 
     var Primitives$2 = /*#__PURE__*/Object.freeze({
         __proto__: null,
+        createOriginalLightsUniform: createOriginalLightsUniform,
         Directional: Directional,
         Point: Point,
         Spot: Spot,
-        Ambient: Ambient,
-        originalLightsUniform: originalLightsUniform
+        Ambient: Ambient
     });
 
     const createVBO = (gl, data) => {
@@ -858,18 +968,25 @@
     };
 
     class Geometry {
+      vertex;
+      tangent;
+      bitangent;
+      normal;
+      uv;
+      index;
+      vertexLocation = -1;
+      tangentLocation = -1;
+      bitangentLocation = -1;
+      normalLocation = -1;
+      uvLocation = -1;
+      vertexVBO = null;
+      tangentVBO = null;
+      bitangentVBO = null;
+      normalVBO = null;
+      uvVBO = null;
+      indexIBO = null;
+
       constructor(vertex, normal, uv, index, tangent, bitangent) {
-        this.vertexLocation = -1;
-        this.tangentLocation = -1;
-        this.bitangentLocation = -1;
-        this.normalLocation = -1;
-        this.uvLocation = -1;
-        this.vertexVBO = null;
-        this.tangentVBO = null;
-        this.bitangentVBO = null;
-        this.normalVBO = null;
-        this.uvVBO = null;
-        this.indexIBO = null;
         this.vertex = vertex;
         this.normal = normal;
         this.uv = uv;
@@ -1041,39 +1158,36 @@
         Torus: Torus
     });
 
-    class Integer {
+    class Integer extends UniformValue {
+      value;
+
       constructor(value) {
+        super();
         this.value = value;
+      }
+
+      clone() {
+        return new Integer(this.value);
+      }
+
+      equals(a) {
+        return this.value === a.value;
+      }
+
+      getArray() {
+        return new Float32Array([this.value]);
+      }
+
+      setUniform(gl, uniLocation) {
+        gl.uniform1i(uniLocation, this.value);
       }
 
     }
 
-    const isUniformInstance = a => typeof a === 'number' || a instanceof Vector2 || a instanceof Vector3 || a instanceof Vector4 || a instanceof Color || a instanceof Matrix4 || a instanceof Integer;
-
-    const UniformSwitcher = (gl, uniLocation, data) => {
-      if (data instanceof Vector2) {
-        gl.uniform2fv(uniLocation, data.getArray());
-      } else if (data instanceof Vector3) {
-        gl.uniform3fv(uniLocation, data.getArray());
-      } else if (data instanceof Vector4) {
-        gl.uniform4fv(uniLocation, data.getArray());
-      } else if (data instanceof Color) {
-        gl.uniform4fv(uniLocation, data.getArray());
-      } else if (data instanceof Matrix4) {
-        gl.uniformMatrix4fv(uniLocation, false, data.getArray());
-      } else if (data instanceof Integer) {
-        if (data.value instanceof Vector2) {
-          gl.uniform2iv(uniLocation, data.value.getArray());
-        } else if (data.value instanceof Vector3) {
-          gl.uniform3iv(uniLocation, data.value.getArray());
-        } else if (data.value instanceof Vector4) {
-          gl.uniform4iv(uniLocation, data.value.getArray());
-        } else if (typeof data.value === 'number') {
-          gl.uniform1i(uniLocation, data.value);
-        }
-      } else if (typeof data === 'number') {
-        gl.uniform1f(uniLocation, data);
-      }
+    const isValidValue = a => typeof a === 'number' || a instanceof Vector2 || a instanceof Vector3 || a instanceof Vector4 || a instanceof Color || a instanceof Matrix4 || a instanceof Integer;
+    const UniformSwitcher = (gl, uniLocation, value) => {
+      if (!isValidValue(value)) return;
+      if (typeof value === 'number') gl.uniform1f(uniLocation, value);else value.setUniform(gl, uniLocation);
     };
 
     const compileShader = (gl, shader, source) => {
@@ -1081,22 +1195,27 @@
       gl.compileShader(shader);
 
       if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+        // eslint-disable-next-line no-console
         console.error(source);
         throw new Error(gl.getShaderInfoLog(shader));
       }
     };
 
     class Material {
-      constructor(vertex, fragment, uniform) {
-        this.vertexShader = null;
-        this.fragmentShader = null;
-        this.uniformLocations = {};
+      vertexSource;
+      fragmentSource;
+      uniforms;
+      vertexShader = null;
+      fragmentShader = null;
+      uniformLocations = {};
+
+      constructor(vertex, fragment, uniforms = {}) {
         this.vertexSource = vertex;
         this.fragmentSource = fragment;
-        this.uniform = uniform;
+        this.uniforms = uniforms;
       }
 
-      initialize(gl, program, defaultUniform) {
+      initialize(gl, program, defaultUniform = {}) {
         this.vertexShader = gl.createShader(gl.VERTEX_SHADER);
         this.fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
         compileShader(gl, this.vertexShader, this.vertexSource);
@@ -1109,18 +1228,17 @@
           throw new Error(gl.getProgramInfoLog(program));
         }
 
-        this.uniform = { ...this.uniform,
+        this.uniforms = { ...this.uniforms,
           ...defaultUniform
         };
-        Object.entries(this.uniform).map(value => {
-          this.uniformLocations[value[0]] = gl.getUniformLocation(program, value[0]);
+        Object.keys(this.uniforms).map(key => {
+          this.uniformLocations[key] = gl.getUniformLocation(program, key);
           return true;
         });
       }
 
       setUniforms(gl) {
-        const entries = Object.entries(this.uniformLocations);
-        entries.map(value => UniformSwitcher(gl, value[1], this.uniform[value[0]]));
+        Object.entries(this.uniformLocations).forEach(([key, value]) => value ? UniformSwitcher(gl, value, this.uniforms[key]) : null);
       }
 
     }
@@ -1638,7 +1756,6 @@ void main(void){
 }
   `
     };
-
     const PhysicalFragment = _brdf => {
       const brdf = _brdf || Primitives.Standard;
       return PhysicalFragmentBase.before + brdf + PhysicalFragmentBase.after;
@@ -1660,14 +1777,14 @@ void main(void){
     const ObjectName = (_base, original, list) => {
       const base = _base === '' ? _base : `${_base}.`;
       Object.entries(original).map(value => {
-        if (isUniformInstance(value[1])) list[`${base}${value[0]}`] = value[1];else if (Array.isArray(value[1])) ArrayName(`${base}${value[0]}`, value[1], list);else if (typeof value[1] === 'object') ObjectName(`${base}${value[0]}`, value[1], list);
+        if (isValidValue(value[1])) list[`${base}${value[0]}`] = value[1];else if (Array.isArray(value[1])) ArrayName(`${base}${value[0]}`, value[1], list);else if (typeof value[1] === 'object') ObjectName(`${base}${value[0]}`, value[1], list);
         return true;
       });
     };
 
     const ArrayName = (base, original, list) => {
       for (let i = 0; i < original.length; i += 1) {
-        if (isUniformInstance(original[i])) list[`${base}[${i}]`] = original[i];else if (Array.isArray(original[i])) ArrayName(`${base}[${i}]`, original[i], list);else if (typeof original[i] === 'object') ObjectName(`${base}[${i}]`, original[i], list);
+        if (isValidValue(original[i])) list[`${base}[${i}]`] = original[i];else if (Array.isArray(original[i])) ArrayName(`${base}[${i}]`, original[i], list);else if (typeof original[i] === 'object') ObjectName(`${base}[${i}]`, original[i], list);
       }
     };
 
@@ -1678,8 +1795,12 @@ void main(void){
     };
 
     class Renderer {
+      parameter;
+      canvas;
+      gl;
+      entities = null;
+
       constructor(_parameter) {
-        this.entities = null;
         this.parameter = _parameter;
         this.canvas = this.parameter.canvas;
         this.gl = this.canvas.getContext('webgl');
@@ -1688,7 +1809,7 @@ void main(void){
       }
 
       addEntities(entity) {
-        const lightsList = JSON.parse(originalLightsUniform);
+        const lightsList = createOriginalLightsUniform();
         this.entities = entity;
         this.entities.searchLight(lightsList);
         const lightsUniform = ObjectToGLStructure(lightsList);
@@ -1704,7 +1825,12 @@ void main(void){
       }
 
       render(camera) {
-        console.assert(!!this.entities, 'Entities are not initialized');
+        if (!this.entities) {
+          // eslint-disable-next-line no-console
+          console.error('Entities are not initialized.');
+          return;
+        }
+
         this.gl.enable(this.gl.DEPTH_TEST);
         this.gl.depthFunc(this.gl.LEQUAL);
         this.gl.enable(this.gl.CULL_FACE);
@@ -1712,8 +1838,7 @@ void main(void){
         this.gl.clearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);
         this.gl.clearDepth(this.parameter.clearDepth);
         this.gl.clear(this.gl.COLOR_BUFFER_BIT || this.gl.DEPTH_BUFFER_BIT);
-        if (!this.entities) return;
-        const lightsList = JSON.parse(originalLightsUniform);
+        const lightsList = createOriginalLightsUniform();
         this.entities.prepare(new Matrix4(), lightsList);
         lightsList.uDirectionalNum = new Integer(lightsList.uDirectionalNum);
         lightsList.uPointNum = new Integer(lightsList.uPointNum);

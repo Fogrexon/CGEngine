@@ -32,7 +32,7 @@ export default [
   },
 
   {
-    input: 'src/main.ts',
+    input: 'src/index.ts',
     preserveModules: true,
     output: {
       dir: 'build/esm',
@@ -55,7 +55,7 @@ export default [
   },
 
   {
-    input: 'src/main.ts',
+    input: 'src/index.ts',
     output: {
       file: 'build/umd/cg-engine.js',
       // dir: 'build/umd',
