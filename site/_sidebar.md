@@ -6,4 +6,4 @@
 * [GettingStarted](/pages/GettingStarted.md)
 
 ## Documents
-* [Documents](/../docs/)
+* [ドキュメント](https://fogrexon.github.io/CGEngine/docs/index.html)

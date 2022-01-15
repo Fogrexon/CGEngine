@@ -11,8 +11,8 @@
     "lint:prettier": "prettier \"./src/**/*.ts\"",
     "lint:eslint": "eslint \"./src/**/*.ts\"",
     "lint:fix": "prettier \"./src/**/*.ts\" --write & eslint \"./src/**/*.ts\" --fix",
-    "site:serve": "docsify serve docs",
-    "docs:serve": "typedoc --out ./docs/docs ./src/"
+    "site:serve": "docsify serve site",
+    "docs:serve": "typedoc --watch --out ./docs ./src/"
 
   },
   "author": "Fogrex",
