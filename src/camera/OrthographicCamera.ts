@@ -1,19 +1,57 @@
-import { Matrix4 } from '../utils/Matrix';
 import { Camera } from './Camera';
 
+/**
+ * Orthographic camera
+ *
+ * @export
+ * @class OrthographicCamera
+ * @extends {Camera}
+ */
 export class OrthographicCamera extends Camera {
+  /**
+   * area height
+   *
+   * @private
+   * @type {number}
+   * @memberof OrthographicCamera
+   */
   private height: number;
 
+  /**
+   * area aspect ratio (width / height)
+   *
+   * @private
+   * @type {number}
+   * @memberof OrthographicCamera
+   */
   private aspect: number;
 
+  /**
+   * near clip
+   *
+   * @private
+   * @type {number}
+   * @memberof OrthographicCamera
+   */
   private near: number;
 
+  /**
+   * far clip
+   *
+   * @private
+   * @type {number}
+   * @memberof OrthographicCamera
+   */
   private far: number;
 
-  viewMatrix: Matrix4 = new Matrix4();
-
-  projectionMatrix: Matrix4 = new Matrix4();
-
+  /**
+   * Creates an instance of OrthographicCamera.
+   * @param {number} height
+   * @param {number} aspect
+   * @param {number} near
+   * @param {number} far
+   * @memberof OrthographicCamera
+   */
   constructor(height: number, aspect: number, near: number, far: number) {
     super();
     this.height = height;
@@ -23,6 +61,11 @@ export class OrthographicCamera extends Camera {
     this.updateProjectionMatrix();
   }
 
+  /**
+   * Update projection matrix (with current value)
+   *
+   * @memberof OrthographicCamera
+   */
   updateProjectionMatrix(): void {
     const scaleX: number = 2.0 / this.height / this.aspect;
     const scaleY: number = 2.0 / this.height;

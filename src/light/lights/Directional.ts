@@ -6,14 +6,38 @@ import { LightsUniform } from '../Primitives';
 
 import { Color } from '../../utils/Color';
 
+/**
+ * Directional light (like sunlight)
+ *
+ * @export
+ * @class Directional
+ * @extends {Light}
+ */
 export class Directional extends Light {
+  /**
+   * Light color
+   *
+   * @type {Color}
+   * @memberof Directional
+   */
   color: Color;
 
+  /**
+   * Creates an instance of Directional.
+   * @param {Color} color Light color
+   * @memberof Directional
+   */
   constructor(color: Color) {
     super();
     this.color = color;
   }
 
+  /**
+   * Add template light to list (for create uniform locations)
+   *
+   * @param {LightsUniform} lightsList
+   * @memberof Directional
+   */
   searchLight(lightsList: LightsUniform): void {
     lightsList.uDirectionalLight.push({
       dir: new Vector3(0, 1, 0),
@@ -23,6 +47,13 @@ export class Directional extends Light {
     super.searchLight(lightsList);
   }
 
+  /**
+   * Add light setting value (for pass uniform value to shader)
+   *
+   * @param {Matrix4} parentMat
+   * @param {LightsUniform} lightsList
+   * @memberof Directional
+   */
   prepare(parentMat: Matrix4, lightsList: LightsUniform): void {
     this.thisMat = <Matrix4>parentMat.multiply(this.transform.getMatrix());
 
