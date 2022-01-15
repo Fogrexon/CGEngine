@@ -6,7 +6,7 @@ import { Vector3 } from '../utils/Vector';
 import { Color } from '../utils/Color';
 import { Integer } from '../utils/Integer';
 
-type LightsUniform = {
+interface LightsUniform {
   uDirectionalLight: {
     dir: Vector3;
     color: Color;

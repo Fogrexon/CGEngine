@@ -2,6 +2,7 @@ import { Transform } from './transform/Transform';
 import { Matrix4 } from '../utils/Matrix';
 import { LightsUniform } from '../light/Primitives';
 import { UniformType } from '../utils/UniformSwitcher';
+import { RenderOptions } from '../renderer/Renderer';
 
 class Empty {
   transform: Transform = new Transform();
@@ -27,8 +28,8 @@ class Empty {
     this.children.map((child) => child.prepare(this.thisMat, lightList));
   }
 
-  render(gl: WebGLRenderingContext, option: any): void {
-    this.children.map((child) => child.render(gl, option));
+  render(gl: WebGLRenderingContext, options: RenderOptions): void {
+    this.children.map((child) => child.render(gl, options));
   }
 }
 

@@ -13,6 +13,12 @@ interface RendererParameter {
   clearDepth: number | undefined;
 }
 
+export interface RenderOptions {
+  uniforms: {
+    [key: string]: UniformType;
+  }
+}
+
 class Renderer {
   private parameter: RendererParameter;
 
@@ -70,9 +76,7 @@ class Renderer {
 
     const lightsUniform: { [key: string]: UniformType } = ObjectToGLStructure(lightsList);
 
-    const option: {
-      uniforms: { [key: string]: UniformType };
-    } = {
+    const option: RenderOptions = {
       uniforms: {
         ...lightsUniform,
         ...camera.getMatrix(),
