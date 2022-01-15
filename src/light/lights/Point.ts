@@ -6,7 +6,7 @@ import { LightsUniform } from '../Primitives';
 
 import { Color } from '../../utils/Color';
 
-class Point extends Light {
+export class Point extends Light {
   color: Color;
 
   decay: number;
@@ -44,5 +44,3 @@ class Point extends Light {
     this.children.map((child) => child.prepare(this.thisMat, lightsList));
   }
 }
-
-export { Point };

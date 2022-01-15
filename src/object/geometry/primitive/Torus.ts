@@ -1,6 +1,6 @@
 import { Geometry } from '../Geometry';
 
-const Torus = (radius: number, _tubeSegment?: number, _radialSegment?: number): Geometry => {
+export const Torus = (radius: number, _tubeSegment?: number, _radialSegment?: number): Geometry => {
   const tubeSegment: number = _tubeSegment || 10;
   const radialSegment: number = _radialSegment || 10;
 
@@ -46,5 +46,3 @@ const Torus = (radius: number, _tubeSegment?: number, _radialSegment?: number): 
   }
   return new Geometry(vertex, normal, uv, index, tangent, bitangent);
 };
-
-export { Torus };

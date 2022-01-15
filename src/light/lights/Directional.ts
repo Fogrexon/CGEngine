@@ -6,7 +6,7 @@ import { LightsUniform } from '../Primitives';
 
 import { Color } from '../../utils/Color';
 
-class Directional extends Light {
+export class Directional extends Light {
   color: Color;
 
   constructor(color: Color) {
@@ -37,5 +37,3 @@ class Directional extends Light {
     this.children.map((child) => child.prepare(this.thisMat, lightsList));
   }
 }
-
-export { Directional };

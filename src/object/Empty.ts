@@ -4,7 +4,7 @@ import { LightsUniform } from '../light/Primitives';
 import { UniformType } from '../utils/UniformSwitcher';
 import { RenderOptions } from '../renderer/Renderer';
 
-class Empty {
+export class Empty {
   transform: Transform = new Transform();
 
   thisMat: Matrix4 = new Matrix4();
@@ -32,5 +32,3 @@ class Empty {
     this.children.map((child) => child.render(gl, options));
   }
 }
-
-export { Empty };

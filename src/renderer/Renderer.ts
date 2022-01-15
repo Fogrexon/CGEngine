@@ -19,7 +19,7 @@ export interface RenderOptions {
   }
 }
 
-class Renderer {
+export class Renderer {
   private parameter: RendererParameter;
 
   public canvas: HTMLCanvasElement;
@@ -86,5 +86,3 @@ class Renderer {
     this.entities.render(this.gl, option);
   }
 }
-
-export { Renderer };

@@ -16,7 +16,7 @@ const createIBO = (gl: WebGLRenderingContext, index: number[]): WebGLBuffer => {
   return ibo;
 };
 
-class Geometry {
+export class Geometry {
   private vertex: number[];
 
   private tangent: number[] | undefined;
@@ -109,5 +109,3 @@ class Geometry {
     return this.index.length;
   }
 }
-
-export { Geometry };

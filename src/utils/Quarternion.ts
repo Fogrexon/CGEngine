@@ -1,7 +1,7 @@
 import { Vector3, Vector4 } from './Vector';
 import { Matrix4 } from './matrixes/Matrix4';
 
-class Quartanion {
+export class Quartanion {
   v: Vector3;
 
   w: number;
@@ -155,13 +155,11 @@ class Quartanion {
     return <Vector4>this.matrix().multiply(a);
   }
 
-  public equal(a: Quartanion): boolean {
+  public equals(a: Quartanion): boolean {
     return this.v.equals(a.v) && this.w === a.w;
   }
 
-  public copy(): Quartanion {
+  public clone(): Quartanion {
     return new Quartanion(this.v.clone(), this.w);
   }
 }
-
-export { Quartanion };

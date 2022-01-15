@@ -1,6 +1,6 @@
 import { Geometry } from '../Geometry';
 
-const Sphere = (_row?: number, _column?: number): Geometry => {
+export const Sphere = (_row?: number, _column?: number): Geometry => {
   const row: number = _row || 10;
   const column: number = _column || 10;
   const vertex: number[] = [];
@@ -41,5 +41,3 @@ const Sphere = (_row?: number, _column?: number): Geometry => {
 
   return new Geometry(vertex, normal, uv, index, tangent, bitangent);
 };
-
-export { Sphere };
