@@ -6,7 +6,7 @@ import * as physical from './fragment/Physical';
 export { Primitives as PBRPrimitives } from './fragment/BRDF/Primitives';
 export * as PBRFunctions from './fragment/BRDF/Functions';
 
-export const ShaderPrimitives: { [key: string]: any } = {
+export const ShaderPrimitives = {
   ...vbasic,
   ...fbasic,
   ...phong,

@@ -1,6 +1,6 @@
 import { Primitives } from './BRDF/Primitives';
 
-const PhysicalFragmentBase: { before: string; after: string } = {
+const PhysicalFragmentBase = {
   before: `
 precision mediump float;
 
@@ -152,13 +152,10 @@ void main(void){
   `,
 };
 
-export /**
+export
+/**
  * Construct PBR shader from BRDF functions
  *
- * @param {string} [_brdf]
- * @return {*} 
+ * @param {string} [brdf=Primitives.Standard]
  */
-const PhysicalFragment = (_brdf?: string) => {
-  const brdf: string = _brdf || Primitives.Standard;
-  return PhysicalFragmentBase.before + brdf + PhysicalFragmentBase.after;
-};
+const PhysicalFragment = (brdf: string = Primitives.Standard) => PhysicalFragmentBase.before + brdf + PhysicalFragmentBase.after;
