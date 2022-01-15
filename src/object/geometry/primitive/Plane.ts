@@ -1,6 +1,11 @@
 import { Geometry } from '../Geometry';
 
-export const Plane = (): Geometry => {
+export /**
+ * Create plane geometry
+ *
+ * @return {*}  {Geometry}
+ */
+const Plane = (): Geometry => {
   const vertex: number[] = [0.5, 0.0, -0.5, -0.5, 0.0, -0.5, -0.5, 0.0, 0.5, 0.5, 0.0, 0.5];
   const tangent: number[] = [0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0, 0.0, 0.0, -1.0];
   const bitangent: number[] = [1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0, 1.0, 0.0, 0.0];

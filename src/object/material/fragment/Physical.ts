@@ -40,7 +40,7 @@ struct NormalizedLight {
   vec3 color;
 };
 
-// Rendererで追加されるやつ
+// Renderer uniforms
 uniform vec3 uCameraPos;
 uniform DirectionalLight uDirectionalLight[LIGHT_MAX];
 uniform int uDirectionalNum;
@@ -51,21 +51,21 @@ uniform int uSpotNum;
 uniform AmbientLight uAmbientLight[LIGHT_MAX];
 uniform int uAmbientNum;
 
-// vertexからの
+// passed from vertex shader
 varying vec3 vWorldPos;
 varying vec3 vNormal;
 varying vec2 vUv;
 varying vec3 vTangent;
 varying vec3 vBitangent;
 
-// PBRパラメーター
+// PBR parameters
 uniform vec4 albedo;
 uniform float roughness;
 uniform float roughnessX;
 uniform float roughnessY;
 uniform float metallic;
 
-// グローバル変数
+// material setting
 struct Material {
   vec3 diffuse;
   vec3 specular;
@@ -152,7 +152,13 @@ void main(void){
   `,
 };
 
-export const PhysicalFragment = (_brdf?: string) => {
+export /**
+ * Construct PBR shader from BRDF functions
+ *
+ * @param {string} [_brdf]
+ * @return {*} 
+ */
+const PhysicalFragment = (_brdf?: string) => {
   const brdf: string = _brdf || Primitives.Standard;
   return PhysicalFragmentBase.before + brdf + PhysicalFragmentBase.after;
 };

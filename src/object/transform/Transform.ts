@@ -2,21 +2,76 @@ import { Vector3 } from '../../utils/Vector';
 import { Quartanion } from '../../utils/Quarternion';
 import { Matrix4 } from '../../utils/Matrix';
 
+/**
+ * Entity's posture (position, rotation, scale)
+ *
+ * @export
+ * @class Transform
+ */
 export class Transform {
+  /**
+   * Position
+   *
+   * @type {Vector3}
+   * @memberof Transform
+   */
   position: Vector3;
 
-  prevPos: Vector3;
+  /**
+   * Position in previous frame
+   *
+   * @private
+   * @type {Vector3}
+   * @memberof Transform
+   */
+  private prevPos: Vector3;
 
+  /**
+   * Rotation (quaternion)
+   *
+   * @type {Quartanion}
+   * @memberof Transform
+   */
   rotation: Quartanion;
 
-  prevRot: Quartanion;
+  /**
+   * Rotation in previous frame
+   *
+   * @private
+   * @type {Quartanion}
+   * @memberof Transform
+   */
+  private prevRot: Quartanion;
 
+  /**
+   * Scale
+   *
+   * @type {Vector3}
+   * @memberof Transform
+   */
   scale: Vector3;
 
-  prevSca: Vector3;
+  /**
+   * Scale in previous frame
+   *
+   * @private
+   * @type {Vector3}
+   * @memberof Transform
+   */
+  private prevSca: Vector3;
 
-  matrix: Matrix4;
+  /**
+   * Model matrix
+   *
+   * @type {Matrix4}
+   * @memberof Transform
+   */
+  private matrix: Matrix4;
 
+  /**
+   * Creates an instance of Transform.
+   * @memberof Transform
+   */
   constructor() {
     this.position = new Vector3(0, 0, 0);
     this.prevPos = new Vector3(0, 0, 0);
@@ -27,6 +82,13 @@ export class Transform {
     this.matrix = new Matrix4();
   }
 
+  /**
+   * Set rotation to look at target
+   *
+   * @param {Vector3} target target position
+   * @return {*}  {Transform}
+   * @memberof Transform
+   */
   lookAt(target: Vector3): Transform {
     const z: Vector3 = this.position.subtract(target).normalize();
     const x: Vector3 = new Vector3(0, 1, 0).cross(z).normalize();
@@ -56,6 +118,12 @@ export class Transform {
     return this;
   }
 
+  /**
+   * Get if model matrix need to update
+   *
+   * @return {*}  {boolean}
+   * @memberof Transform
+   */
   needUpdate(): boolean {
     return !(
       this.position.equals(this.prevPos) &&
@@ -64,6 +132,12 @@ export class Transform {
     );
   }
 
+  /**
+   * Get model matrix
+   *
+   * @return {*}  {Matrix4}
+   * @memberof Transform
+   */
   getMatrix(): Matrix4 {
     if (!this.needUpdate()) return this.matrix;
     const p = new Matrix4([
