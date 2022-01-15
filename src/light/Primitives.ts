@@ -6,6 +6,12 @@ import { Vector3 } from '../utils/Vector';
 import { Color } from '../utils/Color';
 import { Integer } from '../utils/Integer';
 
+/**
+ * Light default uniforms
+ *
+ * @export
+ * @interface LightsUniform
+ */
 export interface LightsUniform {
   uDirectionalLight: {
     dir: Vector3;
@@ -35,7 +41,12 @@ export interface LightsUniform {
   uAmbientNum: number | Integer;
 }
 
-export const createOriginalLightsUniform = (): LightsUniform => ({
+export /**
+ * Create default Uniform
+ *
+ * @return {*}  {LightsUniform}
+ */
+const createOriginalLightsUniform = (): LightsUniform => ({
   uDirectionalLight: [],
   uDirectionalNum: 0,
   uPointLight: [],

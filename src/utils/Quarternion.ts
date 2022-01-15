@@ -1,11 +1,35 @@
 import { Vector3, Vector4 } from './Vector';
 import { Matrix4 } from './matrixes/Matrix4';
 
+/**
+ * Quaternion
+ *
+ * @export
+ * @class Quartanion
+ */
 export class Quartanion {
+  /**
+   * first three elements
+   *
+   * @type {Vector3}
+   * @memberof Quartanion
+   */
   v: Vector3;
 
+  /**
+   * w value
+   *
+   * @type {number}
+   * @memberof Quartanion
+   */
   w: number;
 
+  /**
+   * Creates an instance of Quartanion.
+   * @param {Vector3} [v] 
+   * @param {number} [w]
+   * @memberof Quartanion
+   */
   constructor(v?: Vector3, w?: number) {
     this.v = v || new Vector3(0, 0, 0);
     this.w = w || 1;
@@ -18,17 +42,27 @@ export class Quartanion {
     return this;
   }
 
+  /**
+   * Set quaternion with axis and angle
+   *
+   * @param {number} angle
+   * @param {Vector3} _axis
+   * @return {*}  {Quartanion}
+   * @memberof Quartanion
+   */
   angleAxis(angle: number, _axis: Vector3): Quartanion {
-    const axis: Vector3 = _axis.normalize();
-    this.v = new Vector3(
-      axis.x * Math.sin(angle / 2),
-      axis.y * Math.sin(angle / 2),
-      axis.z * Math.sin(angle / 2)
-    );
+    this.v = _axis.normalize().multiply(Math.sin(angle / 2));
     this.w = Math.cos(angle / 2);
     return this;
   }
 
+  /**
+   * Set quaternion with eular angles
+   *
+   * @param {Vector3} rot
+   * @return {*}  {Quartanion}
+   * @memberof Quartanion
+   */
   eularAngle(rot: Vector3): Quartanion {
     const { x, y, z } = rot;
     const xc = Math.cos(x);
@@ -46,6 +80,12 @@ export class Quartanion {
     return this;
   }
 
+  /**
+   * Convert quaternion to rotation matrix
+   *
+   * @return {*}  {Matrix4}
+   * @memberof Quartanion
+   */
   matrix(): Matrix4 {
     const { x, y, z } = this.v;
     const { w } = this;
@@ -69,6 +109,13 @@ export class Quartanion {
     ]);
   }
 
+  /**
+   * Convert rotation matrix to quaternion
+   *
+   * @param {Matrix4} mat
+   * @return {*}  {Quartanion}
+   * @memberof Quartanion
+   */
   fromMatrix(mat: Matrix4): Quartanion {
     const m00: number = mat.matrix[0];
     const m10: number = mat.matrix[1];
@@ -137,6 +184,12 @@ export class Quartanion {
     return new Quartanion(new Vector3(q[0], q[1], q[2]), q[3]).normalize();
   }
 
+  /**
+   * Normalize quaternion
+   *
+   * @return {*}  {Quartanion}
+   * @memberof Quartanion
+   */
   normalize(): Quartanion {
     const len = Math.sqrt(this.v.x ** 2 + this.v.y ** 2 + this.v.z ** 2 + this.w ** 2);
     return new Quartanion(
@@ -145,7 +198,13 @@ export class Quartanion {
     );
   }
 
-  // 計算
+  /**
+   * Multiply quaternion
+   *
+   * @param {(Quartanion | Vector4)} a
+   * @return {*}  {(Quartanion | Vector4)}
+   * @memberof Quartanion
+   */
   multiply(a: Quartanion | Vector4): Quartanion | Vector4 {
     if (a instanceof Quartanion) {
       return new Quartanion(
@@ -156,10 +215,23 @@ export class Quartanion {
     return <Vector4>this.matrix().multiply(a);
   }
 
+  /**
+   * Is equal
+   *
+   * @param {Quartanion} a
+   * @return {*}  {boolean}
+   * @memberof Quartanion
+   */
   public equals(a: Quartanion): boolean {
     return this.v.equals(a.v) && this.w === a.w;
   }
 
+  /**
+   * Clone quaternion
+   *
+   * @return {*}  {Quartanion}
+   * @memberof Quartanion
+   */
   public clone(): Quartanion {
     return new Quartanion(this.v.clone(), this.w);
   }

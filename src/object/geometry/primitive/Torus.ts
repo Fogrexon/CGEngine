@@ -1,6 +1,14 @@
 import { Geometry } from '../Geometry';
 
-export const Torus = (radius: number, _tubeSegment?: number, _radialSegment?: number): Geometry => {
+export /**
+ * Create torus geometry
+ *
+ * @param {number} radius
+ * @param {number} [_tubeSegment]
+ * @param {number} [_radialSegment]
+ * @return {*}  {Geometry}
+ */
+const Torus = (radius: number, _tubeSegment?: number, _radialSegment?: number): Geometry => {
   const tubeSegment: number = _tubeSegment || 10;
   const radialSegment: number = _radialSegment || 10;
 

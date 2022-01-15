@@ -1,19 +1,53 @@
-import { Matrix4 } from '../utils/Matrix';
 import { Camera } from './Camera';
 
+/**
+ * Perspective camera
+ *
+ * @export
+ * @class PerspectiveCamera
+ * @extends {Camera}
+ */
 export class PerspectiveCamera extends Camera {
+  /**
+   * View angle
+   *
+   * @type {number}
+   * @memberof PerspectiveCamera
+   */
   public angle: number;
 
+  /**
+   * view aspect ratio (width / height)
+   *
+   * @type {number}
+   * @memberof PerspectiveCamera
+   */
   public aspect: number;
 
+  /**
+   * near clip
+   *
+   * @type {number}
+   * @memberof PerspectiveCamera
+   */
   public near: number;
 
+  /**
+   * far clip
+   *
+   * @type {number}
+   * @memberof PerspectiveCamera
+   */
   public far: number;
 
-  viewMatrix: Matrix4 = new Matrix4();
-
-  projectionMatrix: Matrix4 = new Matrix4();
-
+  /**
+   * Creates an instance of PerspectiveCamera.
+   * @param {number} angle
+   * @param {number} aspect
+   * @param {number} near
+   * @param {number} far
+   * @memberof PerspectiveCamera
+   */
   constructor(angle: number, aspect: number, near: number, far: number) {
     super();
     this.angle = angle;
@@ -23,6 +57,11 @@ export class PerspectiveCamera extends Camera {
     this.updateProjectionMatrix();
   }
 
+  /**
+   * update projection matrix (with current value)
+   *
+   * @memberof PerspectiveCamera
+   */
   public updateProjectionMatrix(): void {
     const scaleX: number = 1 / Math.tan(this.angle / 2) / this.aspect;
     const scaleY: number = 1 / Math.tan(this.angle / 2);

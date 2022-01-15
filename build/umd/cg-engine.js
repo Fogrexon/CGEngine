@@ -4,50 +4,148 @@
     (global = typeof globalThis !== 'undefined' ? globalThis : global || self, factory(global.CGEngine = {}));
 }(this, (function (exports) { 'use strict';
 
+    /**
+     * Passable to shader as uniform value
+     *
+     * @export
+     * @abstract
+     * @class UniformValue
+     * @template T
+     */
     class UniformValue {}
 
+    /**
+     * Vector2
+     *
+     * @export
+     * @class Vector2
+     * @extends {UniformValue<Vector2>}
+     */
+
     class Vector2 extends UniformValue {
+      /**
+       * first value
+       *
+       * @type {number}
+       * @memberof Vector2
+       */
       x;
+      /**
+       * second value
+       *
+       * @type {number}
+       * @memberof Vector2
+       */
+
       y;
+      /**
+       * Creates an instance of Vector2.
+       * @param {number} [_x=0]
+       * @param {number} _y
+       * @memberof Vector2
+       */
 
       constructor(_x = 0, _y) {
         super();
         this.x = _x;
         this.y = _y || _x;
       }
+      /**
+       * set value
+       *
+       * @param {number} x
+       * @param {number} y
+       * @return {*}  {Vector2}
+       * @memberof Vector2
+       */
+
 
       set(x, y) {
         this.x = x;
         this.y = y;
         return this;
       }
+      /**
+       * Squared length
+       *
+       * @return {*}  {number}
+       * @memberof Vector2
+       */
+
 
       length2() {
         return this.x ** 2.0 + this.y ** 2.0;
       }
+      /**
+       * Length
+       *
+       * @return {*}  {number}
+       * @memberof Vector2
+       */
+
 
       length() {
         return Math.sqrt(this.length2());
       }
+      /**
+       * Distance between two vectors
+       *
+       * @param {Vector2} a
+       * @return {*}  {number}
+       * @memberof Vector2
+       */
+
 
       distance(a) {
         return Math.sqrt((this.x - a.x) ** 2 + (this.y - a.y) ** 2);
       }
+      /**
+       * Add vector2 or number
+       *
+       * @param {(Vector2 | number)} a
+       * @return {*}  {Vector2}
+       * @memberof Vector2
+       */
+
 
       add(a) {
         if (a instanceof Vector2) return new Vector2(this.x + a.x, this.y + a.y);
         return new Vector2(this.x + a, this.y + a);
       }
+      /**
+       * Subtract vector2 or number
+       *
+       * @param {(Vector2 | number)} a
+       * @return {*}  {Vector2}
+       * @memberof Vector2
+       */
+
 
       subtract(a) {
         if (a instanceof Vector2) return new Vector2(this.x - a.x, this.y - a.y);
         return new Vector2(this.x - a, this.y - a);
       }
+      /**
+       * Multiply vector2 or number
+       *
+       * @param {(Vector2 | number)} a
+       * @return {*}  {Vector2}
+       * @memberof Vector2
+       */
+
 
       multiply(a) {
         if (a instanceof Vector2) return new Vector2(this.x * a.x, this.y * a.y);
         return new Vector2(this.x * a, this.y * a);
       }
+      /**
+       * Divide with vector2 or number (if zero value, show error to console)
+       *
+       * @param {(Vector2 | number)} a
+       * @return {*}  {Vector2}
+       * @memberof Vector2
+       */
+
 
       divide(a) {
         if (a instanceof Vector2) {
@@ -60,26 +158,71 @@
         console.assert(a !== 0, 'cannot divide by zero');
         return new Vector2(this.x / a, this.y / a);
       }
+      /**
+       * Normalized vector
+       *
+       * @return {*}  {Vector2}
+       * @memberof Vector2
+       */
+
 
       normalize() {
         return this.divide(this.length());
       }
+      /**
+       * Inner product
+       *
+       * @param {Vector2} a
+       * @return {*}  {number}
+       * @memberof Vector2
+       */
+
 
       dot(a) {
         return this.x * a.x + this.y * a.y;
       }
+      /**
+       * Is equal
+       *
+       * @param {Vector2} a
+       * @return {*}  {boolean}
+       * @memberof Vector2
+       */
+
 
       equals(a) {
         return this.x === a.x && this.y === a.y;
       }
+      /**
+       * Clone vector
+       *
+       * @return {*}  {Vector2}
+       * @memberof Vector2
+       */
+
 
       clone() {
         return new Vector2(this.x, this.y);
       }
+      /**
+       * Get Float32Array
+       *
+       * @return {*}  {Float32Array}
+       * @memberof Vector2
+       */
+
 
       getArray() {
         return new Float32Array([this.x, this.y]);
       }
+      /**
+       * Set value to shader
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {WebGLUniformLocation} uniLocation
+       * @memberof Vector2
+       */
+
 
       setUniform(gl, uniLocation) {
         gl.uniform2fv(uniLocation, this.getArray());
@@ -87,10 +230,45 @@
 
     }
 
+    /**
+     * Vector3
+     *
+     * @export
+     * @class Vector3
+     * @extends {UniformValue<Vector3>}
+     */
+
     class Vector3 extends UniformValue {
+      /**
+       * first value
+       *
+       * @type {number}
+       * @memberof Vector3
+       */
       x;
+      /**
+       * second value
+       *
+       * @type {number}
+       * @memberof Vector3
+       */
+
       y;
+      /**
+       * third value
+       *
+       * @type {number}
+       * @memberof Vector3
+       */
+
       z;
+      /**
+       * Creates an instance of Vector3.
+       * @param {number} _x
+       * @param {number} _y
+       * @param {number} _z
+       * @memberof Vector3
+       */
 
       constructor(_x, _y, _z) {
         super();
@@ -98,6 +276,16 @@
         this.y = _y;
         this.z = _z;
       }
+      /**
+       * Set values
+       *
+       * @param {number} x
+       * @param {number} y
+       * @param {number} z
+       * @return {*}  {Vector3}
+       * @memberof Vector3
+       */
+
 
       set(x, y, z) {
         this.x = x;
@@ -105,33 +293,87 @@
         this.z = z;
         return this;
       }
+      /**
+       * Squared length
+       *
+       * @return {*}  {number}
+       * @memberof Vector3
+       */
+
 
       length2() {
         return this.x ** 2.0 + this.y ** 2.0 + this.z ** 2.0;
       }
+      /**
+       * Length
+       *
+       * @return {*}  {number}
+       * @memberof Vector3
+       */
+
 
       length() {
         return Math.sqrt(this.length2());
       }
+      /**
+       * Distance between two vectors
+       *
+       * @param {Vector3} a
+       * @return {*}  {number}
+       * @memberof Vector3
+       */
+
 
       distance(a) {
         return Math.sqrt((this.x - a.x) ** 2 + (this.y - a.y) ** 2 + (this.z - a.z) ** 2);
       }
+      /**
+       * Add vecotr3 or number
+       *
+       * @param {(Vector3 | number)} a
+       * @return {*}  {Vector3}
+       * @memberof Vector3
+       */
+
 
       add(a) {
         if (a instanceof Vector3) return new Vector3(this.x + a.x, this.y + a.y, this.z + a.z);
         return new Vector3(this.x + a, this.y + a, this.z + a);
       }
+      /**
+       * Subtract vector3 or number
+       *
+       * @param {(Vector3 | number)} a
+       * @return {*}  {Vector3}
+       * @memberof Vector3
+       */
+
 
       subtract(a) {
         if (a instanceof Vector3) return new Vector3(this.x - a.x, this.y - a.y, this.z - a.z);
         return new Vector3(this.x - a, this.y - a, this.z - a);
       }
+      /**
+       * Multiply vector3 or number
+       *
+       * @param {(Vector3 | number)} a
+       * @return {*}  {Vector3}
+       * @memberof Vector3
+       */
+
 
       multiply(a) {
         if (a instanceof Vector3) return new Vector3(this.x * a.x, this.y * a.y, this.z * a.z);
         return new Vector3(this.x * a, this.y * a, this.z * a);
       }
+      /**
+       * Divide with vector3 or number (if zero value, show erro in console)
+       *
+       * @param {(Vector3 | number)} a
+       * @return {*}  {Vector3}
+       * @memberof Vector3
+       */
+
 
       divide(a) {
         if (a instanceof Vector3) {
@@ -144,30 +386,83 @@
         console.assert(a !== 0, 'cannot divide by zero');
         return new Vector3(this.x / a, this.y / a, this.z / a);
       }
+      /**
+       * Get normalized vector
+       *
+       * @return {*}  {Vector3}
+       * @memberof Vector3
+       */
+
 
       normalize() {
         return this.divide(this.length());
       }
+      /**
+       * Inner product
+       *
+       * @param {Vector3} a
+       * @return {*}  {number}
+       * @memberof Vector3
+       */
+
 
       dot(a) {
         return this.x * a.x + this.y * a.y + this.z * a.z;
       }
+      /**
+       * Outer product
+       *
+       * @param {Vector3} a
+       * @return {*}  {Vector3}
+       * @memberof Vector3
+       */
+
 
       cross(a) {
         return new Vector3(this.y * a.z - this.z * a.y, this.z * a.x - this.x * a.z, this.x * a.y - this.y * a.x);
       }
+      /**
+       * Is equal
+       *
+       * @param {Vector3} a
+       * @return {*}  {boolean}
+       * @memberof Vector3
+       */
+
 
       equals(a) {
         return this.x === a.x && this.y === a.y && this.z === a.z;
       }
+      /**
+       * Clone vector
+       *
+       * @return {*}  {Vector3}
+       * @memberof Vector3
+       */
+
 
       clone() {
         return new Vector3(this.x, this.y, this.z);
       }
+      /**
+       * Get Float32Array
+       *
+       * @return {*}  {Float32Array}
+       * @memberof Vector3
+       */
+
 
       getArray() {
         return new Float32Array([this.x, this.y, this.z]);
       }
+      /**
+       * Set values to shader
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {WebGLUniformLocation} uniLocation
+       * @memberof Vector3
+       */
+
 
       setUniform(gl, uniLocation) {
         gl.uniform3fv(uniLocation, this.getArray());
@@ -175,11 +470,54 @@
 
     }
 
+    /**
+     * Vector4
+     *
+     * @export
+     * @class Vector4
+     * @extends {UniformValue<Vector4>}
+     */
+
     class Vector4 extends UniformValue {
+      /**
+       * first value
+       *
+       * @type {number}
+       * @memberof Vector4
+       */
       x;
+      /**
+       * second value
+       *
+       * @type {number}
+       * @memberof Vector4
+       */
+
       y;
+      /**
+       * third value
+       *
+       * @type {number}
+       * @memberof Vector4
+       */
+
       z;
+      /**
+       * fourth value
+       *
+       * @type {number}
+       * @memberof Vector4
+       */
+
       w;
+      /**
+       * Creates an instance of Vector4.
+       * @param {number} _x
+       * @param {number} _y
+       * @param {number} _z
+       * @param {number} _w
+       * @memberof Vector4
+       */
 
       constructor(_x, _y, _z, _w) {
         super();
@@ -188,6 +526,17 @@
         this.z = _z;
         this.w = _w;
       }
+      /**
+       * Set values
+       *
+       * @param {number} x
+       * @param {number} y
+       * @param {number} z
+       * @param {number} w
+       * @return {*}  {Vector4}
+       * @memberof Vector4
+       */
+
 
       set(x, y, z, w) {
         this.x = x;
@@ -196,18 +545,48 @@
         this.w = w;
         return this;
       }
+      /**
+       * Squared length
+       *
+       * @return {*}  {number}
+       * @memberof Vector4
+       */
+
 
       length2() {
         return this.x ** 2.0 + this.y ** 2.0 + this.z ** 2.0 + this.w ** 2.0;
       }
+      /**
+       * Length
+       *
+       * @return {*}  {number}
+       * @memberof Vector4
+       */
+
 
       length() {
         return Math.sqrt(this.length2());
       }
+      /**
+       * Distance between two vectors
+       *
+       * @param {Vector4} a
+       * @return {*}  {number}
+       * @memberof Vector4
+       */
+
 
       distance(a) {
         return Math.sqrt((this.x - a.x) ** 2 + (this.y - a.y) ** 2 + (this.z - a.z) ** 2 + (this.w - a.w) ** 2);
       }
+      /**
+       * Add vector4 or number
+       *
+       * @param {(Vector4 | number)} a
+       * @return {*}  {Vector4}
+       * @memberof Vector4
+       */
+
 
       add(a) {
         if (a instanceof Vector4) {
@@ -216,6 +595,14 @@
 
         return new Vector4(this.x + a, this.y + a, this.z + a, this.w + a);
       }
+      /**
+       * Subtract vector4 or number
+       *
+       * @param {(Vector4 | number)} a
+       * @return {*}  {Vector4}
+       * @memberof Vector4
+       */
+
 
       subtract(a) {
         if (a instanceof Vector4) {
@@ -224,6 +611,14 @@
 
         return new Vector4(this.x - a, this.y - a, this.z - a, this.w - a);
       }
+      /**
+       * Multiply vector4 or number
+       *
+       * @param {(Vector4 | number)} a
+       * @return {*}  {Vector4}
+       * @memberof Vector4
+       */
+
 
       multiply(a) {
         if (a instanceof Vector4) {
@@ -232,6 +627,14 @@
 
         return new Vector4(this.x * a, this.y * a, this.z * a, this.w * a);
       }
+      /**
+       * Divide vector4 or number (if zero value, show error in console)
+       *
+       * @param {(Vector4 | number)} a
+       * @return {*}  {Vector4}
+       * @memberof Vector4
+       */
+
 
       divide(a) {
         if (a instanceof Vector4) {
@@ -244,26 +647,71 @@
         console.assert(a !== 0, 'cannot divide by zero');
         return new Vector4(this.x / a, this.y / a, this.z / a, this.w / a);
       }
+      /**
+       * Normalized vector
+       *
+       * @return {*}  {Vector4}
+       * @memberof Vector4
+       */
+
 
       normalize() {
         return this.divide(this.length());
       }
+      /**
+       * Inner product
+       *
+       * @param {Vector4} a
+       * @return {*}  {number}
+       * @memberof Vector4
+       */
+
 
       dot(a) {
         return this.x * a.x + this.y * a.y + this.z * a.z + this.w * a.w;
       }
+      /**
+       * Is equal
+       *
+       * @param {Vector4} a
+       * @return {*}  {boolean}
+       * @memberof Vector4
+       */
+
 
       equals(a) {
         return this.x === a.x && this.y === a.y && this.z === a.z && this.w === a.w;
       }
+      /**
+       * Clone vector
+       *
+       * @return {*}  {Vector4}
+       * @memberof Vector4
+       */
+
 
       clone() {
         return new Vector4(this.x, this.y, this.z, this.w);
       }
+      /**
+       * Get Float32Array
+       *
+       * @return {*}  {Float32Array}
+       * @memberof Vector4
+       */
+
 
       getArray() {
         return new Float32Array([this.x, this.y, this.z, this.w]);
       }
+      /**
+       * Set values to shader
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {WebGLUniformLocation} uniLocation
+       * @memberof Vector4
+       */
+
 
       setUniform(gl, uniLocation) {
         gl.uniform4fv(uniLocation, this.getArray());
@@ -271,34 +719,95 @@
 
     }
 
+    /**
+     * Matrix 4x4
+     *
+     * @export
+     * @class Matrix4
+     * @extends {UniformValue<Matrix4>}
+     */
+
     class Matrix4 extends UniformValue {
+      /**
+       * Matrix elements
+       *
+       * @type {number[]}
+       * @memberof Matrix4
+       */
       matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+      /**
+       * Creates an instance of Matrix4.
+       * @param {number[]} [numArray] default matrix elements
+       * @memberof Matrix4
+       */
 
       constructor(numArray) {
         super();
         if (numArray) this.set(numArray);
-      } // 生成
+      }
+      /**
+       * Identity matrix
+       *
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
 
 
       eye() {
         this.matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
         return this;
       }
+      /**
+       * Set matrix elements
+       *
+       * @param {number[]} numArray
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
+
 
       set(numArray) {
+        if (numArray.length !== 16) {
+          // eslint-disable-next-line no-console
+          console.error('Number of elements is invalid.');
+          return this;
+        }
+
         this.matrix = numArray;
         return this;
       }
+      /**
+       * Empty matrix
+       *
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
+
 
       empty() {
         this.matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
         return this;
       }
+      /**
+       * Create matrix filled with a
+       *
+       * @param {number} a filling number
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
+
 
       fill(a) {
         this.matrix = [a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a];
         return this;
-      } // 計算
+      }
+      /**
+       * Add matrix or number to this
+       *
+       * @param {(Matrix4 | number)} add
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
 
 
       add(add) {
@@ -311,6 +820,14 @@
 
         return new Matrix4([m[0] + add, m[1] + add, m[2] + add, m[3] + add, m[4] + add, m[5] + add, m[6] + add, m[7] + add, m[8] + add, m[9] + add, m[10] + add, m[11] + add, m[12] + add, m[13] + add, m[14] + add, m[15] + add]);
       }
+      /**
+       * Substact matrix or number
+       *
+       * @param {(Matrix4 | number)} sub
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
+
 
       subtract(sub) {
         const m = this.matrix;
@@ -322,6 +839,14 @@
 
         return new Matrix4([m[0] + sub, m[1] + sub, m[2] + sub, m[3] + sub, m[4] + sub, m[5] + sub, m[6] + sub, m[7] + sub, m[8] + sub, m[9] + sub, m[10] + sub, m[11] + sub, m[12] + sub, m[13] + sub, m[14] + sub, m[15] + sub]);
       }
+      /**
+       * Multiply number or Matrix or Vector4
+       *
+       * @param {(number | Matrix4 | Vector4)} mul
+       * @return {*}  {(Matrix4 | Vector4)}
+       * @memberof Matrix4
+       */
+
 
       multiply(mul) {
         const m = this.matrix;
@@ -337,11 +862,25 @@
 
         return new Matrix4([m[0] * mul, m[1] * mul, m[2] * mul, m[3] * mul, m[4] * mul, m[5] * mul, m[6] * mul, m[7] * mul, m[8] * mul, m[9] * mul, m[10] * mul, m[11] * mul, m[12] * mul, m[13] * mul, m[14] * mul, m[15] * mul]);
       }
+      /**
+       * Transpose matrix
+       *
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
+
 
       transpose() {
         const m = this.matrix;
         return new Matrix4([m[0], m[4], m[8], m[12], m[1], m[5], m[9], m[13], m[2], m[6], m[10], m[14], m[3], m[7], m[11], m[15]]);
       }
+      /**
+       * Inverse matrix (if not invertible, throw error)
+       *
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
+
 
       inverse() {
         const mat = this.matrix;
@@ -395,29 +934,73 @@
         dest[15] = (i * t - j * r + k * q) * ivd;
         return new Matrix4(dest);
       }
+      /**
+       * Get scale and rotation matrix
+       *
+       * @return {*}  {Matrix4}
+       * @memberof Matrix4
+       */
+
 
       getScaleRotationMatrix() {
         const m = this.matrix;
         return new Matrix4([m[0], m[1], m[2], 0, m[4], m[5], m[6], 0, m[8], m[9], m[10], 0, 0, 0, 0, 1]);
       }
+      /**
+       * Get translate matrix
+       *
+       * @return {*}  {Vector3}
+       * @memberof Matrix4
+       */
+
 
       getTranslateVector() {
         return new Vector3(this.matrix[12], this.matrix[13], this.matrix[14]);
       } // override
 
+      /**
+       * Is equal
+       *
+       * @param {Matrix4} a
+       * @return {*}
+       * @memberof Matrix4
+       */
+
 
       equals(a) {
         return this.matrix.reduce((prev, curr, index) => prev && curr === a.matrix[index], true);
       }
+      /**
+       * Clone
+       *
+       * @return {*}
+       * @memberof Matrix4
+       */
+
 
       clone() {
         const m = this.matrix;
         return new Matrix4([m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11], m[12], m[13], m[14], m[15]]);
       }
+      /**
+       * Get Float32Array (to pass shader)
+       *
+       * @return {*}  {Float32Array}
+       * @memberof Matrix4
+       */
+
 
       getArray() {
         return new Float32Array(this.matrix);
       }
+      /**
+       * Pass value to shader
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {WebGLUniformLocation} uniLocation
+       * @memberof Matrix4
+       */
+
 
       setUniform(gl, uniLocation) {
         gl.uniformMatrix4fv(uniLocation, false, this.getArray());
@@ -425,9 +1008,35 @@
 
     }
 
+    /**
+     * Quaternion
+     *
+     * @export
+     * @class Quartanion
+     */
+
     class Quartanion {
+      /**
+       * first three elements
+       *
+       * @type {Vector3}
+       * @memberof Quartanion
+       */
       v;
+      /**
+       * w value
+       *
+       * @type {number}
+       * @memberof Quartanion
+       */
+
       w;
+      /**
+       * Creates an instance of Quartanion.
+       * @param {Vector3} [v]
+       * @param {number} [w]
+       * @memberof Quartanion
+       */
 
       constructor(v, w) {
         this.v = v || new Vector3(0, 0, 0);
@@ -440,14 +1049,29 @@
         this.w = w;
         return this;
       }
+      /**
+       * Set quaternion with axis and angle
+       *
+       * @param {number} angle
+       * @param {Vector3} _axis
+       * @return {*}  {Quartanion}
+       * @memberof Quartanion
+       */
+
 
       angleAxis(angle, _axis) {
-        const axis = _axis.normalize();
-
-        this.v = new Vector3(axis.x * Math.sin(angle / 2), axis.y * Math.sin(angle / 2), axis.z * Math.sin(angle / 2));
+        this.v = _axis.normalize().multiply(Math.sin(angle / 2));
         this.w = Math.cos(angle / 2);
         return this;
       }
+      /**
+       * Set quaternion with eular angles
+       *
+       * @param {Vector3} rot
+       * @return {*}  {Quartanion}
+       * @memberof Quartanion
+       */
+
 
       eularAngle(rot) {
         const {
@@ -465,6 +1089,13 @@
         this.w = xc * yc * zs - xs * ys * zc;
         return this;
       }
+      /**
+       * Convert quaternion to rotation matrix
+       *
+       * @return {*}  {Matrix4}
+       * @memberof Quartanion
+       */
+
 
       matrix() {
         const {
@@ -477,6 +1108,14 @@
         } = this;
         return new Matrix4([x ** 2 - y ** 2 - z ** 2 + w ** 2, 2 * (x * y + z * w), 2 * (x * z - y * w), 0, 2 * (x * y - z * w), y ** 2 - x ** 2 - z ** 2 + w ** 2, 2 * (y * z + x * w), 0, 2 * (x * z + y * w), 2 * (y * z - x * w), z ** 2 + w ** 2 - x ** 2 - y ** 2, 0, 0, 0, 0, 1]);
       }
+      /**
+       * Convert rotation matrix to quaternion
+       *
+       * @param {Matrix4} mat
+       * @return {*}  {Quartanion}
+       * @memberof Quartanion
+       */
+
 
       fromMatrix(mat) {
         const m00 = mat.matrix[0];
@@ -543,11 +1182,25 @@
 
         return new Quartanion(new Vector3(q[0], q[1], q[2]), q[3]).normalize();
       }
+      /**
+       * Normalize quaternion
+       *
+       * @return {*}  {Quartanion}
+       * @memberof Quartanion
+       */
+
 
       normalize() {
         const len = Math.sqrt(this.v.x ** 2 + this.v.y ** 2 + this.v.z ** 2 + this.w ** 2);
         return new Quartanion(new Vector3(this.v.x / len, this.v.y / len, this.v.z / len), this.w / len);
-      } // 計算
+      }
+      /**
+       * Multiply quaternion
+       *
+       * @param {(Quartanion | Vector4)} a
+       * @return {*}  {(Quartanion | Vector4)}
+       * @memberof Quartanion
+       */
 
 
       multiply(a) {
@@ -557,10 +1210,25 @@
 
         return this.matrix().multiply(a);
       }
+      /**
+       * Is equal
+       *
+       * @param {Quartanion} a
+       * @return {*}  {boolean}
+       * @memberof Quartanion
+       */
+
 
       equals(a) {
         return this.v.equals(a.v) && this.w === a.w;
       }
+      /**
+       * Clone quaternion
+       *
+       * @return {*}  {Quartanion}
+       * @memberof Quartanion
+       */
+
 
       clone() {
         return new Quartanion(this.v.clone(), this.w);
@@ -568,14 +1236,76 @@
 
     }
 
+    /**
+     * Entity's posture (position, rotation, scale)
+     *
+     * @export
+     * @class Transform
+     */
+
     class Transform {
+      /**
+       * Position
+       *
+       * @type {Vector3}
+       * @memberof Transform
+       */
       position;
+      /**
+       * Position in previous frame
+       *
+       * @private
+       * @type {Vector3}
+       * @memberof Transform
+       */
+
       prevPos;
+      /**
+       * Rotation (quaternion)
+       *
+       * @type {Quartanion}
+       * @memberof Transform
+       */
+
       rotation;
+      /**
+       * Rotation in previous frame
+       *
+       * @private
+       * @type {Quartanion}
+       * @memberof Transform
+       */
+
       prevRot;
+      /**
+       * Scale
+       *
+       * @type {Vector3}
+       * @memberof Transform
+       */
+
       scale;
+      /**
+       * Scale in previous frame
+       *
+       * @private
+       * @type {Vector3}
+       * @memberof Transform
+       */
+
       prevSca;
+      /**
+       * Model matrix
+       *
+       * @type {Matrix4}
+       * @memberof Transform
+       */
+
       matrix;
+      /**
+       * Creates an instance of Transform.
+       * @memberof Transform
+       */
 
       constructor() {
         this.position = new Vector3(0, 0, 0);
@@ -586,6 +1316,14 @@
         this.prevSca = new Vector3(1, 1, 1);
         this.matrix = new Matrix4();
       }
+      /**
+       * Set rotation to look at target
+       *
+       * @param {Vector3} target target position
+       * @return {*}  {Transform}
+       * @memberof Transform
+       */
+
 
       lookAt(target) {
         const z = this.position.subtract(target).normalize();
@@ -595,10 +1333,24 @@
         this.rotation = this.rotation.fromMatrix(mat4);
         return this;
       }
+      /**
+       * Get if model matrix need to update
+       *
+       * @return {*}  {boolean}
+       * @memberof Transform
+       */
+
 
       needUpdate() {
         return !(this.position.equals(this.prevPos) && this.rotation.equals(this.prevRot) && this.scale.equals(this.prevSca));
       }
+      /**
+       * Get model matrix
+       *
+       * @return {*}  {Matrix4}
+       * @memberof Transform
+       */
+
 
       getMatrix() {
         if (!this.needUpdate()) return this.matrix;
@@ -614,16 +1366,57 @@
 
     }
 
+    /**
+     * Scene camera
+     *
+     * @export
+     * @abstract
+     * @class Camera
+     */
+
     class Camera {
+      /**
+       * camera transform
+       *
+       * @type {Transform}
+       * @memberof Camera
+       */
       transform;
+      /**
+       * view matrix of camera
+       *
+       * @protected
+       * @type {Matrix4}
+       * @memberof Camera
+       */
+
       viewMatrix;
+      /**
+       * projection matrix of camera
+       *
+       * @protected
+       * @type {Matrix4}
+       * @memberof Camera
+       */
+
       projectionMatrix;
+      /**
+       * Creates an instance of Camera.
+       * @memberof Camera
+       */
 
       constructor() {
         this.transform = new Transform();
         this.viewMatrix = new Matrix4();
         this.projectionMatrix = new Matrix4();
       }
+      /**
+       * get all MVP matrix
+       *
+       * @return {*}  {{ vMatrix: Matrix4; pMatrix: Matrix4; uCameraPos: Vector3 }}
+       * @memberof Camera
+       */
+
 
       getMatrix() {
         this.viewMatrix = this.transform.needUpdate() ? this.transform.getMatrix().inverse() : this.viewMatrix;
@@ -636,13 +1429,54 @@
 
     }
 
+    /**
+     * Perspective camera
+     *
+     * @export
+     * @class PerspectiveCamera
+     * @extends {Camera}
+     */
+
     class PerspectiveCamera extends Camera {
+      /**
+       * View angle
+       *
+       * @type {number}
+       * @memberof PerspectiveCamera
+       */
       angle;
+      /**
+       * view aspect ratio (width / height)
+       *
+       * @type {number}
+       * @memberof PerspectiveCamera
+       */
+
       aspect;
+      /**
+       * near clip
+       *
+       * @type {number}
+       * @memberof PerspectiveCamera
+       */
+
       near;
+      /**
+       * far clip
+       *
+       * @type {number}
+       * @memberof PerspectiveCamera
+       */
+
       far;
-      viewMatrix = new Matrix4();
-      projectionMatrix = new Matrix4();
+      /**
+       * Creates an instance of PerspectiveCamera.
+       * @param {number} angle
+       * @param {number} aspect
+       * @param {number} near
+       * @param {number} far
+       * @memberof PerspectiveCamera
+       */
 
       constructor(angle, aspect, near, far) {
         super();
@@ -652,6 +1486,12 @@
         this.far = far;
         this.updateProjectionMatrix();
       }
+      /**
+       * update projection matrix (with current value)
+       *
+       * @memberof PerspectiveCamera
+       */
+
 
       updateProjectionMatrix() {
         const scaleX = 1 / Math.tan(this.angle / 2) / this.aspect;
@@ -663,13 +1503,58 @@
 
     }
 
+    /**
+     * Orthographic camera
+     *
+     * @export
+     * @class OrthographicCamera
+     * @extends {Camera}
+     */
+
     class OrthographicCamera extends Camera {
+      /**
+       * area height
+       *
+       * @private
+       * @type {number}
+       * @memberof OrthographicCamera
+       */
       height;
+      /**
+       * area aspect ratio (width / height)
+       *
+       * @private
+       * @type {number}
+       * @memberof OrthographicCamera
+       */
+
       aspect;
+      /**
+       * near clip
+       *
+       * @private
+       * @type {number}
+       * @memberof OrthographicCamera
+       */
+
       near;
+      /**
+       * far clip
+       *
+       * @private
+       * @type {number}
+       * @memberof OrthographicCamera
+       */
+
       far;
-      viewMatrix = new Matrix4();
-      projectionMatrix = new Matrix4();
+      /**
+       * Creates an instance of OrthographicCamera.
+       * @param {number} height
+       * @param {number} aspect
+       * @param {number} near
+       * @param {number} far
+       * @memberof OrthographicCamera
+       */
 
       constructor(height, aspect, near, far) {
         super();
@@ -679,6 +1564,12 @@
         this.far = far;
         this.updateProjectionMatrix();
       }
+      /**
+       * Update projection matrix (with current value)
+       *
+       * @memberof OrthographicCamera
+       */
+
 
       updateProjectionMatrix() {
         const scaleX = 2.0 / this.height / this.aspect;
@@ -690,27 +1581,90 @@
 
     }
 
+    /**
+     * Empty object (parent of some entities)
+     *
+     * @export
+     * @class Empty
+     */
+
     class Empty {
+      /**
+       * transform
+       *
+       * @type {Transform}
+       * @memberof Empty
+       */
       transform = new Transform();
+      /**
+       * World coordinate based model matrix
+       *
+       * @protected
+       * @type {Matrix4}
+       * @memberof Empty
+       */
+
       thisMat = new Matrix4();
+      /**
+       * Children entities
+       *
+       * @type {Empty[]}
+       * @memberof Empty
+       */
+
       children;
+      /**
+       * Creates an instance of Empty.
+       * @memberof Empty
+       */
 
       constructor() {
         this.children = [];
       }
+      /**
+       * Pass light list
+       *
+       * @param {LightsUniform} list
+       * @memberof Empty
+       */
+
 
       searchLight(list) {
         this.children.map(child => child.searchLight(list));
       }
+      /**
+       * initialize children
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {{ [key: string]: UniformType }} defaultUniforms
+       * @memberof Empty
+       */
+
 
       initialize(gl, defaultUniforms) {
         this.children.map(child => child.initialize(gl, defaultUniforms));
       }
+      /**
+       * prepare children
+       *
+       * @param {Matrix4} parentMat
+       * @param {LightsUniform} lightList
+       * @memberof Empty
+       */
+
 
       prepare(parentMat, lightList) {
         this.thisMat = parentMat.multiply(this.transform.getMatrix());
         this.children.map(child => child.prepare(this.thisMat, lightList));
       }
+      /**
+       * render children
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {RenderOptions} options
+       * @memberof Empty
+       */
+
 
       render(gl, options) {
         this.children.map(child => child.render(gl, options));
@@ -718,16 +1672,58 @@
 
     }
 
+    /**
+     * Object with geometry
+     *
+     * @export
+     * @class Entity
+     * @extends {Empty}
+     */
+
     class Entity extends Empty {
+      /**
+       * Geometry
+       *
+       * @type {Geometry}
+       * @memberof Entity
+       */
       geometry;
+      /**
+       * Material
+       *
+       * @type {Material}
+       * @memberof Entity
+       */
+
       material;
+      /**
+       * WebGLProgram
+       *
+       * @type {(WebGLProgram | null)}
+       * @memberof Entity
+       */
+
       program = null;
+      /**
+       * Creates an instance of Entity.
+       * @param {Geometry} geometry
+       * @param {Material} material
+       * @memberof Entity
+       */
 
       constructor(geometry, material) {
         super();
         this.geometry = geometry;
         this.material = material;
       }
+      /**
+       * Initialize geometry and material
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {{ [key: string]: UniformType }} defaultUniforms
+       * @memberof Entity
+       */
+
 
       initialize(gl, defaultUniforms) {
         this.program = gl.createProgram();
@@ -735,6 +1731,14 @@
         this.geometry.setupAttribute(gl, this.program);
         super.initialize(gl, defaultUniforms);
       }
+      /**
+       * Render entity
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {RenderOptions} options
+       * @memberof Entity
+       */
+
 
       render(gl, options) {
         this.material.uniforms.mMatrix = this.thisMat;
@@ -751,13 +1755,64 @@
 
     }
 
+    /**
+     * Parent class of lights
+     *
+     * @export
+     * @class Light
+     * @extends {Empty}
+     */
+
     class Light extends Empty {}
 
+    /**
+     * Color
+     *
+     * @export
+     * @class Color
+     * @extends {UniformValue<Color>}
+     */
+
     class Color extends UniformValue {
+      /**
+       * red value (0 ~ 1)
+       *
+       * @type {number}
+       * @memberof Color
+       */
       r;
+      /**
+       * green value (0 ~ 1)
+       *
+       * @type {number}
+       * @memberof Color
+       */
+
       g;
+      /**
+       * blue value (0 ~ 1)
+       *
+       * @type {number}
+       * @memberof Color
+       */
+
       b;
+      /**
+       * alpha value (0 ~ 1)
+       *
+       * @type {number}
+       * @memberof Color
+       */
+
       a;
+      /**
+       * Creates an instance of Color.
+       * @param {number} _r
+       * @param {number} _g
+       * @param {number} _b
+       * @param {number} [_a=1.0]
+       * @memberof Color
+       */
 
       constructor(_r, _g, _b, _a = 1.0) {
         super();
@@ -766,18 +1821,48 @@
         this.b = _b;
         this.a = _a;
       }
+      /**
+       * Is equal
+       *
+       * @param {Color} a
+       * @return {*}
+       * @memberof Color
+       */
+
 
       equals(a) {
         return this.r === a.r && this.g === a.g && this.b === a.b && this.a === a.a;
       }
+      /**
+       * Clone color
+       *
+       * @return {*}
+       * @memberof Color
+       */
+
 
       clone() {
         return new Color(this.r, this.g, this.b, this.a);
       }
+      /**
+       * Get Float32Array
+       *
+       * @return {*}  {Float32Array}
+       * @memberof Color
+       */
+
 
       getArray() {
         return new Float32Array([this.r, this.g, this.b, this.a]);
       }
+      /**
+       * Set values to shaders
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {WebGLUniformLocation} uniLocation
+       * @memberof Color
+       */
+
 
       setUniform(gl, uniLocation) {
         gl.uniform4fv(uniLocation, this.getArray());
@@ -786,13 +1871,39 @@
     }
 
     /* eslint-disable no-param-reassign */
+    /**
+     * Directional light (like sunlight)
+     *
+     * @export
+     * @class Directional
+     * @extends {Light}
+     */
+
     class Directional extends Light {
+      /**
+       * Light color
+       *
+       * @type {Color}
+       * @memberof Directional
+       */
       color;
+      /**
+       * Creates an instance of Directional.
+       * @param {Color} color Light color
+       * @memberof Directional
+       */
 
       constructor(color) {
         super();
         this.color = color;
       }
+      /**
+       * Add template light to list (for create uniform locations)
+       *
+       * @param {LightsUniform} lightsList
+       * @memberof Directional
+       */
+
 
       searchLight(lightsList) {
         lightsList.uDirectionalLight.push({
@@ -802,6 +1913,14 @@
         lightsList.uDirectionalNum = lightsList.uDirectionalNum + 1;
         super.searchLight(lightsList);
       }
+      /**
+       * Add light setting value (for pass uniform value to shader)
+       *
+       * @param {Matrix4} parentMat
+       * @param {LightsUniform} lightsList
+       * @memberof Directional
+       */
+
 
       prepare(parentMat, lightsList) {
         this.thisMat = parentMat.multiply(this.transform.getMatrix());
@@ -817,17 +1936,59 @@
     }
 
     /* eslint-disable no-param-reassign */
-    class Point extends Light {
-      color;
-      decay;
-      distance;
+    /**
+     * Point light
+     *
+     * @export
+     * @class Point
+     * @extends {Light}
+     */
 
-      constructor(_color, _distance, _decay) {
+    class Point extends Light {
+      /**
+       * Light color
+       *
+       * @type {Color}
+       * @memberof Point
+       */
+      color;
+      /**
+       * Light decay rate
+       *
+       * @type {number}
+       * @memberof Point
+       */
+
+      decay;
+      /**
+       * Light distance limit
+       *
+       * @type {number}
+       * @memberof Point
+       */
+
+      distance;
+      /**
+       * Creates an instance of Point.
+       * @param {Color} _color Light color
+       * @param {number} _distance Light distance limit
+       * @param {number} [_decay] Light decay rate
+       * @memberof Point
+       */
+
+      constructor(_color, _distance, _decay = 1) {
         super();
         this.color = _color;
         this.distance = _distance;
-        this.decay = _decay || 1;
+        this.decay = _decay;
       }
+      /**
+       * Add template light to list (for create uniform locations)
+       *
+       * @param {LightsUniform} lightsList
+       * @memberof Point
+       */
+
 
       searchLight(lightsList) {
         lightsList.uPointLight.push({
@@ -839,6 +2000,14 @@
         lightsList.uPointNum = lightsList.uPointNum + 1;
         super.searchLight(lightsList);
       }
+      /**
+       * Add light setting value (for pass uniform value to shader)
+       *
+       * @param {Matrix4} parentMat
+       * @param {LightsUniform} lightsList
+       * @memberof Point
+       */
+
 
       prepare(parentMat, lightsList) {
         this.thisMat = parentMat.multiply(this.transform.getMatrix());
@@ -855,21 +2024,79 @@
     }
 
     /* eslint-disable no-param-reassign */
-    class Spot extends Light {
-      color;
-      decay;
-      distance;
-      coneCos;
-      penumbraCos;
+    /**
+     * Spot light
+     *
+     * @export
+     * @class Spot
+     * @extends {Light}
+     */
 
-      constructor(_color, _coneCos, _penumbraCos, _distance, _decay) {
+    class Spot extends Light {
+      /**
+       * Light color
+       *
+       * @type {Color}
+       * @memberof Spot
+       */
+      color;
+      /**
+       * Light decay rate
+       *
+       * @type {number}
+       * @memberof Spot
+       */
+
+      decay;
+      /**
+       * Light distance limit
+       *
+       * @type {number}
+       * @memberof Spot
+       */
+
+      distance;
+      /**
+       * Light area cone angle (full intensity in this angle) (cosine value)
+       *
+       * @type {number}
+       * @memberof Spot
+       */
+
+      coneCos;
+      /**
+       * Penumbra angle (light intensity decays to 0 toward this angle ) (cosine value)
+       *
+       * @type {number}
+       * @memberof Spot
+       */
+
+      penumbraCos;
+      /**
+       * Creates an instance of Spot.
+       * @param {Color} _color Light color
+       * @param {number} _coneCos Light cone angle (cosine)
+       * @param {number} _penumbraCos Light penumbra angle (cosine)
+       * @param {number} _distance Light distance limit
+       * @param {number} [_decay] Light decay rate
+       * @memberof Spot
+       */
+
+      constructor(_color, _coneCos, _penumbraCos, _distance, _decay = 1) {
         super();
         this.color = _color;
-        this.decay = _decay || 1;
+        this.decay = _decay;
         this.coneCos = Math.cos(_coneCos);
         this.penumbraCos = Math.cos(_penumbraCos);
         this.distance = _distance;
       }
+      /**
+       * Add template light to list (for create uniform locations)
+       *
+       * @param {LightsUniform} lightsList
+       * @memberof Spot
+       */
+
 
       searchLight(lightsList) {
         lightsList.uSpotLight.push({
@@ -884,6 +2111,14 @@
         lightsList.uSpotNum = lightsList.uSpotNum + 1;
         super.searchLight(lightsList);
       }
+      /**
+       * Add light setting value (for pass uniform value to shader)
+       *
+       * @param {Matrix4} parentMat
+       * @param {LightsUniform} lightsList
+       * @memberof Spot
+       */
+
 
       prepare(parentMat, lightsList) {
         this.thisMat = parentMat.multiply(this.transform.getMatrix());
@@ -904,13 +2139,39 @@
     }
 
     /* eslint-disable no-param-reassign */
+    /**
+     * Ambient camera.
+     *
+     * @export
+     * @class Ambient
+     * @extends {Light}
+     */
+
     class Ambient extends Light {
+      /**
+       * light color
+       *
+       * @type {Color}
+       * @memberof Ambient
+       */
       color;
+      /**
+       * Creates an instance of Ambient.
+       * @param {Color} color Light color
+       * @memberof Ambient
+       */
 
       constructor(color) {
         super();
         this.color = color;
       }
+      /**
+       * Add template light to list (for create uniform locations)
+       *
+       * @param {LightsUniform} lightsList
+       * @memberof Ambient
+       */
+
 
       searchLight(lightsList) {
         lightsList.uAmbientLight.push({
@@ -919,6 +2180,14 @@
         lightsList.uAmbientNum = lightsList.uAmbientNum + 1;
         super.searchLight(lightsList);
       }
+      /**
+       * Add light setting value (for pass uniform value to shader)
+       *
+       * @param {Matrix4} parentMat
+       * @param {LightsUniform} lightsList
+       * @memberof Ambient
+       */
+
 
       prepare(parentMat, lightsList) {
         this.thisMat = parentMat.multiply(this.transform.getMatrix());
@@ -966,25 +2235,177 @@
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER, null);
       return ibo;
     };
+    /**
+     * geometry class
+     *
+     * @export
+     * @class Geometry
+     */
+
 
     class Geometry {
+      /**
+       * vertex position
+       *
+       * @private
+       * @type {number[]}
+       * @memberof Geometry
+       */
       vertex;
+      /**
+       * vertex tangent value
+       *
+       * @private
+       * @type {(number[] | undefined)}
+       * @memberof Geometry
+       */
+
       tangent;
+      /**
+       * vertex bitangent value
+       *
+       * @private
+       * @type {(number[] | undefined)}
+       * @memberof Geometry
+       */
+
       bitangent;
+      /**
+       * vertex normal value
+       *
+       * @private
+       * @type {number[]}
+       * @memberof Geometry
+       */
+
       normal;
+      /**
+       * vertex uv coordinate
+       *
+       * @private
+       * @type {number[]}
+       * @memberof Geometry
+       */
+
       uv;
+      /**
+       * face indicies
+       *
+       * @private
+       * @type {number[]}
+       * @memberof Geometry
+       */
+
       index;
+      /**
+       * vertex uniform location
+       *
+       * @private
+       * @type {number}
+       * @memberof Geometry
+       */
+
       vertexLocation = -1;
+      /**
+       * tangent uniform location
+       *
+       * @private
+       * @type {number}
+       * @memberof Geometry
+       */
+
       tangentLocation = -1;
+      /**
+       * bitangent uniform location
+       *
+       * @private
+       * @type {number}
+       * @memberof Geometry
+       */
+
       bitangentLocation = -1;
+      /**
+       * normal uniform location
+       *
+       * @private
+       * @type {number}
+       * @memberof Geometry
+       */
+
       normalLocation = -1;
+      /**
+       * uv uniform location
+       *
+       * @private
+       * @type {number}
+       * @memberof Geometry
+       */
+
       uvLocation = -1;
+      /**
+       * vertex vbo
+       *
+       * @private
+       * @type {(WebGLBuffer | null)}
+       * @memberof Geometry
+       */
+
       vertexVBO = null;
+      /**
+       * tangent vbo
+       *
+       * @private
+       * @type {(WebGLBuffer | null)}
+       * @memberof Geometry
+       */
+
       tangentVBO = null;
+      /**
+       * bitangent vbo
+       *
+       * @private
+       * @type {(WebGLBuffer | null)}
+       * @memberof Geometry
+       */
+
       bitangentVBO = null;
+      /**
+       * normal vbo
+       *
+       * @private
+       * @type {(WebGLBuffer | null)}
+       * @memberof Geometry
+       */
+
       normalVBO = null;
+      /**
+       * uv vbo
+       *
+       * @private
+       * @type {(WebGLBuffer | null)}
+       * @memberof Geometry
+       */
+
       uvVBO = null;
+      /**
+       * indicies vbo
+       *
+       * @private
+       * @type {(WebGLBuffer | null)}
+       * @memberof Geometry
+       */
+
       indexIBO = null;
+      /**
+       * Creates an instance of Geometry.
+       * @param {number[]} vertex vertex position (stride 3)
+       * @param {number[]} normal normal value (stride 3)
+       * @param {number[]} uv uv value (stride 2)
+       * @param {number[]} index indicies (stride 3)
+       * @param {number[]} [tangent] tangent valu (stride 3)
+       * @param {number[]} [bitangent] bitangent value (stride 3)
+       * @memberof Geometry
+       */
 
       constructor(vertex, normal, uv, index, tangent, bitangent) {
         this.vertex = vertex;
@@ -993,7 +2414,14 @@
         this.index = index;
         this.tangent = tangent;
         this.bitangent = bitangent;
-      } // Attribute情報の設定
+      }
+      /**
+       * Create attribute's vbos
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {WebGLProgram} program
+       * @memberof Geometry
+       */
 
 
       setupAttribute(gl, program) {
@@ -1012,6 +2440,13 @@
           this.bitangentVBO = createVBO(gl, this.bitangent);
         }
       }
+      /**
+       * Set attribute's locations to shader
+       *
+       * @param {WebGLRenderingContext} gl
+       * @memberof Geometry
+       */
+
 
       attachAttribute(gl) {
         gl.bindBuffer(gl.ARRAY_BUFFER, this.vertexVBO);
@@ -1034,6 +2469,13 @@
           gl.vertexAttribPointer(this.bitangentLocation, 3, gl.FLOAT, false, 0, 0);
         }
       }
+      /**
+       * Get indicies length
+       *
+       * @return {*}  {number}
+       * @memberof Geometry
+       */
+
 
       getIndexLength() {
         return this.index.length;
@@ -1158,25 +2600,74 @@
         Torus: Torus
     });
 
+    /**
+     * Integer
+     *
+     * @export
+     * @class Integer
+     * @extends {UniformValue<Integer>}
+     */
+
     class Integer extends UniformValue {
+      /**
+       * value
+       *
+       * @type {number}
+       * @memberof Integer
+       */
       value;
+      /**
+       * Creates an instance of Integer.
+       * @param {number} value
+       * @memberof Integer
+       */
 
       constructor(value) {
         super();
         this.value = value;
       }
+      /**
+       * Clone value
+       *
+       * @return {*}
+       * @memberof Integer
+       */
+
 
       clone() {
         return new Integer(this.value);
       }
+      /**
+       * Is equal
+       *
+       * @param {Integer} a
+       * @return {*}
+       * @memberof Integer
+       */
+
 
       equals(a) {
         return this.value === a.value;
       }
+      /**
+       * Get Float32Array
+       *
+       * @return {*}
+       * @memberof Integer
+       */
+
 
       getArray() {
         return new Float32Array([this.value]);
       }
+      /**
+       * Set value to shader
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {WebGLUniformLocation} uniLocation
+       * @memberof Integer
+       */
+
 
       setUniform(gl, uniLocation) {
         gl.uniform1i(uniLocation, this.value);
@@ -1200,20 +2691,89 @@
         throw new Error(gl.getShaderInfoLog(shader));
       }
     };
+    /**
+     * Material class
+     *
+     * @export
+     * @class Material
+     */
+
 
     class Material {
+      /**
+       * vertex shader's source string
+       *
+       * @private
+       * @type {string}
+       * @memberof Material
+       */
       vertexSource;
+      /**
+       * fragmet shader's source string
+       *
+       * @private
+       * @type {string}
+       * @memberof Material
+       */
+
       fragmentSource;
+      /**
+       * uniform map
+       *
+       * @type {MaterialUniforms}
+       * @memberof Material
+       */
+
       uniforms;
+      /**
+       * Vertex shader
+       *
+       * @private
+       * @type {(WebGLShader | null)}
+       * @memberof Material
+       */
+
       vertexShader = null;
+      /**
+       * Fragment shader
+       *
+       * @private
+       * @type {(WebGLShader | null)}
+       * @memberof Material
+       */
+
       fragmentShader = null;
+      /**
+       * uniform locations
+       *
+       * @private
+       * @type {({ [s: string]: WebGLUniformLocation | null })}
+       * @memberof Material
+       */
+
       uniformLocations = {};
+      /**
+       * Creates an instance of Material.
+       * @param {string} vertex
+       * @param {string} fragment
+       * @param {MaterialUniforms} [uniforms={}]
+       * @memberof Material
+       */
 
       constructor(vertex, fragment, uniforms = {}) {
         this.vertexSource = vertex;
         this.fragmentSource = fragment;
         this.uniforms = uniforms;
       }
+      /**
+       * Create WebGL program and get uniform location
+       *
+       * @param {WebGLRenderingContext} gl
+       * @param {WebGLProgram} program
+       * @param {MaterialUniforms} [defaultUniform={}]
+       * @memberof Material
+       */
+
 
       initialize(gl, program, defaultUniform = {}) {
         this.vertexShader = gl.createShader(gl.VERTEX_SHADER);
@@ -1236,6 +2796,13 @@
           return true;
         });
       }
+      /**
+       * Pass uniform values to shader
+       *
+       * @param {WebGLRenderingContext} gl
+       * @memberof Material
+       */
+
 
       setUniforms(gl) {
         Object.entries(this.uniformLocations).forEach(([key, value]) => value ? UniformSwitcher(gl, value, this.uniforms[key]) : null);
@@ -1645,7 +3212,7 @@ struct NormalizedLight {
   vec3 color;
 };
 
-// Rendererで追加されるやつ
+// Renderer uniforms
 uniform vec3 uCameraPos;
 uniform DirectionalLight uDirectionalLight[LIGHT_MAX];
 uniform int uDirectionalNum;
@@ -1656,21 +3223,21 @@ uniform int uSpotNum;
 uniform AmbientLight uAmbientLight[LIGHT_MAX];
 uniform int uAmbientNum;
 
-// vertexからの
+// passed from vertex shader
 varying vec3 vWorldPos;
 varying vec3 vNormal;
 varying vec2 vUv;
 varying vec3 vTangent;
 varying vec3 vBitangent;
 
-// PBRパラメーター
+// PBR parameters
 uniform vec4 albedo;
 uniform float roughness;
 uniform float roughnessX;
 uniform float roughnessY;
 uniform float metallic;
 
-// グローバル変数
+// material setting
 struct Material {
   vec3 diffuse;
   vec3 specular;
@@ -1756,10 +3323,7 @@ void main(void){
 }
   `
     };
-    const PhysicalFragment = _brdf => {
-      const brdf = _brdf || Primitives.Standard;
-      return PhysicalFragmentBase.before + brdf + PhysicalFragmentBase.after;
-    };
+    const PhysicalFragment = (brdf = Primitives.Standard) => PhysicalFragmentBase.before + brdf + PhysicalFragmentBase.after;
 
     var physical = /*#__PURE__*/Object.freeze({
         __proto__: null,
@@ -1794,11 +3358,52 @@ void main(void){
       return list;
     };
 
+    /**
+     * Renderer
+     *
+     * @export
+     * @class Renderer
+     */
+
     class Renderer {
+      /**
+       * Renderer settings
+       *
+       * @private
+       * @type {RendererParameter}
+       * @memberof Renderer
+       */
       parameter;
+      /**
+       * Target canvas
+       *
+       * @type {HTMLCanvasElement}
+       * @memberof Renderer
+       */
+
       canvas;
+      /**
+       * Rendering context
+       *
+       * @private
+       * @type {WebGLRenderingContext}
+       * @memberof Renderer
+       */
+
       gl;
+      /**
+       * Root entity
+       *
+       * @type {(Empty | null)}
+       * @memberof Renderer
+       */
+
       entities = null;
+      /**
+       * Creates an instance of Renderer.
+       * @param {RendererParameter} _parameter Renderer parameters
+       * @memberof Renderer
+       */
 
       constructor(_parameter) {
         this.parameter = _parameter;
@@ -1807,6 +3412,13 @@ void main(void){
         this.parameter.clearColor = this.parameter.clearColor || new Color(0.0, 0.0, 0.0, 1.0);
         this.parameter.clearDepth = this.parameter.clearDepth || 1.0;
       }
+      /**
+       * Add root entity
+       *
+       * @param {Empty} entity scene root entity
+       * @memberof Renderer
+       */
+
 
       addEntities(entity) {
         const lightsList = createOriginalLightsUniform();
@@ -1823,6 +3435,14 @@ void main(void){
         };
         this.entities.initialize(this.gl, defaultUniform);
       }
+      /**
+       * Render entities
+       *
+       * @param {Camera} camera Camera
+       * @return {*}
+       * @memberof Renderer
+       */
+
 
       render(camera) {
         if (!this.entities) {

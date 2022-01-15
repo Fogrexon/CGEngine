@@ -6,7 +6,12 @@ import { UniformValue } from './UniformValue';
 
 export type UniformType = null | number | UniformValue<any>;
 
-export const isValidValue = (a: any) =>
+export /**
+ * check if a is valid value for uniform
+ *
+ * @param {*} a
+ */
+const isValidValue = (a: any) =>
   typeof a === 'number' ||
   a instanceof Vector2 ||
   a instanceof Vector3 ||
@@ -15,7 +20,15 @@ export const isValidValue = (a: any) =>
   a instanceof Matrix4 ||
   a instanceof Integer;
 
-export const UniformSwitcher = (
+export /**
+ * Pass uniform value and location to each setUniform method
+ *
+ * @param {WebGLRenderingContext} gl
+ * @param {WebGLUniformLocation} uniLocation
+ * @param {UniformType} value
+ * @return {*} 
+ */
+const UniformSwitcher = (
   gl: WebGLRenderingContext,
   uniLocation: WebGLUniformLocation,
   value: UniformType

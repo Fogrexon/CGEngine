@@ -1,6 +1,13 @@
 import { Geometry } from '../Geometry';
 
-export const Sphere = (_row?: number, _column?: number): Geometry => {
+export /**
+ * Create sphere geometry
+ *
+ * @param {number} [_row]
+ * @param {number} [_column]
+ * @return {*}  {Geometry}
+ */
+const Sphere = (_row?: number, _column?: number): Geometry => {
   const row: number = _row || 10;
   const column: number = _column || 10;
   const vertex: number[] = [];
