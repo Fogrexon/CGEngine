@@ -1,21 +1,21 @@
 import { Color } from '../utils/Color';
 import { Camera } from '../camera/Camera';
 import { Matrix4 } from '../utils/Matrix';
-import { ObjectToGLStructure } from '../utils/ObjectToGLStructure';
-import { LightsUniform, originalLightsUniform } from '../light/Primitives';
+import { ObjectToGLStructure, UniformStruct } from '../utils/ObjectToGLStructure';
+import { createOriginalLightsUniform, LightsUniform } from '../light/Primitives';
 import { Empty } from '../object/Empty';
-import { UniformType } from '../utils/UniformSwitcher';
 import { Integer } from '../utils/Integer';
+import { UniformValue } from '../utils/UniformValue';
 
 interface RendererParameter {
   canvas: HTMLCanvasElement;
-  clearColor: Color | undefined;
-  clearDepth: number | undefined;
+  clearColor?: Color | undefined;
+  clearDepth?: number | undefined;
 }
 
 export interface RenderOptions {
   uniforms: {
-    [key: string]: UniformType;
+    [key: string]: UniformValue<any>;
   }
 }
 
@@ -37,11 +37,11 @@ class Renderer {
   }
 
   addEntities(entity: Empty) {
-    const lightsList: LightsUniform = JSON.parse(originalLightsUniform);
+    const lightsList: LightsUniform = createOriginalLightsUniform();
     this.entities = entity;
     this.entities.searchLight(lightsList);
 
-    const lightsUniform = ObjectToGLStructure(lightsList);
+    const lightsUniform = ObjectToGLStructure(lightsList as unknown as UniformStruct);
 
     const defaultUniform = {
       mMatrix: null,
@@ -66,15 +66,15 @@ class Renderer {
     this.gl.clear(this.gl.COLOR_BUFFER_BIT || this.gl.DEPTH_BUFFER_BIT);
 
     if (!this.entities) return;
-    const lightsList: LightsUniform = JSON.parse(originalLightsUniform);
+    const lightsList: LightsUniform = createOriginalLightsUniform();
     this.entities.prepare(new Matrix4(), lightsList);
 
-    lightsList.uDirectionalNum = new Integer(lightsList.uDirectionalNum);
-    lightsList.uPointNum = new Integer(lightsList.uPointNum);
-    lightsList.uSpotNum = new Integer(lightsList.uSpotNum);
-    lightsList.uAmbientNum = new Integer(lightsList.uAmbientNum);
+    lightsList.uDirectionalNum = new Integer(lightsList.uDirectionalNum as number);
+    lightsList.uPointNum = new Integer(lightsList.uPointNum as number);
+    lightsList.uSpotNum = new Integer(lightsList.uSpotNum as number);
+    lightsList.uAmbientNum = new Integer(lightsList.uAmbientNum as number);
 
-    const lightsUniform: { [key: string]: UniformType } = ObjectToGLStructure(lightsList);
+    const lightsUniform = ObjectToGLStructure(lightsList as unknown as UniformStruct);
 
     const option: RenderOptions = {
       uniforms: {

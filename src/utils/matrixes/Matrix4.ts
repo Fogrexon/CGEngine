@@ -1,35 +1,37 @@
+import { UniformValue } from '../UniformValue';
 import { Vector3, Vector4 } from '../Vector';
 
-class Matrix4 {
-  matrix: number[] = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
+export class Matrix4 extends UniformValue<Matrix4> {
+  public matrix: number[] = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 
   constructor(numArray?: number[]) {
+    super();
     if (numArray) this.set(numArray);
   }
 
   // 生成
-  eye(): Matrix4 {
+  public eye(): Matrix4 {
     this.matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
     return this;
   }
 
-  set(numArray: number[]): Matrix4 {
+  public set(numArray: number[]): Matrix4 {
     this.matrix = numArray;
     return this;
   }
 
-  empty(): Matrix4 {
+  public empty(): Matrix4 {
     this.matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     return this;
   }
 
-  fill(a: number): Matrix4 {
+  public fill(a: number): Matrix4 {
     this.matrix = [a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a];
     return this;
   }
 
   // 計算
-  add(add: Matrix4 | number): Matrix4 {
+  public add(add: Matrix4 | number): Matrix4 {
     const m: number[] = this.matrix;
     if (add instanceof Matrix4) {
       const n: number[] = add.matrix;
@@ -72,7 +74,7 @@ class Matrix4 {
     ]);
   }
 
-  subtract(sub: Matrix4): Matrix4 {
+  public subtract(sub: Matrix4): Matrix4 {
     const m: number[] = this.matrix;
     if (sub instanceof Matrix4) {
       const n: number[] = sub.matrix;
@@ -115,7 +117,7 @@ class Matrix4 {
     ]);
   }
 
-  multiply(mul: number | Matrix4 | Vector4): Matrix4 | Vector4 {
+  public multiply(mul: number | Matrix4 | Vector4): Matrix4 | Vector4 {
     const m: number[] = this.matrix;
     if (mul instanceof Matrix4) {
       const n: number[] = mul.matrix;
@@ -166,7 +168,7 @@ class Matrix4 {
     ]);
   }
 
-  transpose(): Matrix4 {
+  public transpose(): Matrix4 {
     const m: number[] = this.matrix;
     return new Matrix4([
       m[0],
@@ -188,7 +190,7 @@ class Matrix4 {
     ]);
   }
 
-  inverse(): Matrix4 {
+  public inverse(): Matrix4 {
     const mat: number[] = this.matrix;
     const a = mat[0];
     const b = mat[1];
@@ -242,11 +244,7 @@ class Matrix4 {
     return new Matrix4(dest);
   }
 
-  getArray(): Float32Array {
-    return new Float32Array(this.matrix);
-  }
-
-  getScaleRotationMatrix(): Matrix4 {
+  public getScaleRotationMatrix(): Matrix4 {
     const m = this.matrix;
     return new Matrix4([
       m[0],
@@ -267,10 +265,27 @@ class Matrix4 {
       1,
     ]);
   }
-
-  getTranslateVector(): Vector3 {
+  
+  public getTranslateVector(): Vector3 {
     return new Vector3(this.matrix[12], this.matrix[13], this.matrix[14]);
   }
-}
 
-export { Matrix4 };
+  // override
+
+  public equals(a: Matrix4) {
+    return this.matrix.reduce((prev, curr, index) => prev && (curr === a.matrix[index]), true);
+  }
+
+  public clone() {
+    const m = this.matrix;
+    return new Matrix4([m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11], m[12], m[13], m[14], m[15]])
+  }
+
+  public getArray(): Float32Array {
+    return new Float32Array(this.matrix);
+  }
+
+  public setUniform(gl: WebGLRenderingContext, uniLocation: WebGLUniformLocation) {
+    gl.uniformMatrix4fv(uniLocation, false, this.getArray());
+  }
+}

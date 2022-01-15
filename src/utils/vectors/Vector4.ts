@@ -1,4 +1,6 @@
-class Vector4 {
+import { UniformValue } from "../UniformValue";
+
+export class Vector4 extends UniformValue<Vector4> {
   public x: number;
 
   public y: number;
@@ -8,6 +10,7 @@ class Vector4 {
   public w: number;
 
   constructor(_x: number, _y: number, _z: number, _w: number) {
+    super();
     this.x = _x;
     this.y = _y;
     this.z = _z;
@@ -74,17 +77,19 @@ class Vector4 {
     return this.x * a.x + this.y * a.y + this.z * a.z + this.w * a.w;
   }
 
-  public equal(a: Vector4): boolean {
+  public equals(a: Vector4): boolean {
     return this.x === a.x && this.y === a.y && this.z === a.z && this.w === a.w;
   }
 
-  public copy(): Vector4 {
+  public clone(): Vector4 {
     return new Vector4(this.x, this.y, this.z, this.w);
   }
 
   public getArray(): Float32Array {
     return new Float32Array([this.x, this.y, this.z, this.w]);
   }
-}
 
-export { Vector4 };
+  public setUniform(gl: WebGLRenderingContext, uniLocation: WebGLUniformLocation) {
+    gl.uniform4fv(uniLocation, this.getArray());
+  }
+}

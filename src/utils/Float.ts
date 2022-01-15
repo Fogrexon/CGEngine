@@ -21,6 +21,6 @@ export class Integer extends UniformValue<Integer> {
   }
 
   public setUniform(gl: WebGLRenderingContext, uniLocation: WebGLUniformLocation) {
-    gl.uniform1i(uniLocation, this.value);
+    gl.uniform1f(uniLocation, this.value);
   }
 }

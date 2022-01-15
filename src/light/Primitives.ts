@@ -6,7 +6,7 @@ import { Vector3 } from '../utils/Vector';
 import { Color } from '../utils/Color';
 import { Integer } from '../utils/Integer';
 
-interface LightsUniform {
+export interface LightsUniform {
   uDirectionalLight: {
     dir: Vector3;
     color: Color;
@@ -35,15 +35,15 @@ interface LightsUniform {
   uAmbientNum: number | Integer;
 };
 
-const originalLightsUniform: string = JSON.stringify({
-  uDirectionalLight: [],
-  uDirectionalNum: 0,
-  uPointLight: [],
-  uPointNum: 0,
-  uSpotLight: [],
-  uSpotNum: 0,
-  uAmbientLight: [],
-  uAmbientNum: 0,
-});
+export const createOriginalLightsUniform = (): LightsUniform => ({
+    uDirectionalLight: [],
+    uDirectionalNum: 0,
+    uPointLight: [],
+    uPointNum: 0,
+    uSpotLight: [],
+    uSpotNum: 0,
+    uAmbientLight: [],
+    uAmbientNum: 0,
+  });
 
-export { Directional, Point, Spot, Ambient, LightsUniform, originalLightsUniform };
+export { Directional, Point, Spot, Ambient };

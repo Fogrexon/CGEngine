@@ -156,11 +156,11 @@ class Quartanion {
   }
 
   public equal(a: Quartanion): boolean {
-    return this.v.equal(a.v) && this.w === a.w;
+    return this.v.equals(a.v) && this.w === a.w;
   }
 
   public copy(): Quartanion {
-    return new Quartanion(this.v.copy(), this.w);
+    return new Quartanion(this.v.clone(), this.w);
   }
 }
 

@@ -61,7 +61,8 @@ export class Material {
   }
 
   setUniforms(gl: WebGLRenderingContext): void {
-    const entries = Object.entries(this.uniformLocations);
-    entries.map((value) => UniformSwitcher(gl, value[1], this.uniforms[value[0]]));
+    Object
+      .entries(this.uniformLocations)
+      .forEach(([key, value]) => value ? UniformSwitcher(gl, value, this.uniforms[key]) : null);
   }
 }
