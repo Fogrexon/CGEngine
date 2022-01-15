@@ -26,7 +26,13 @@ const ArrayName = (base: string, original: any, list: any) => {
   }
 };
 
-export const ObjectToGLStructure = (
+export /**
+ * Convert struct object to Uniform key-value map
+ *
+ * @param {UniformStruct} original
+ * @return {*}  {{ [key: string]: UniformValue<any> }}
+ */
+const ObjectToGLStructure = (
   original: UniformStruct
 ): { [key: string]: UniformValue<any> } => {
   const list = {};

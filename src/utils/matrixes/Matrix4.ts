@@ -1,36 +1,91 @@
 import { UniformValue } from '../UniformValue';
 import { Vector3, Vector4 } from '../Vector';
 
+/**
+ * Matrix 4x4 
+ *
+ * @export
+ * @class Matrix4
+ * @extends {UniformValue<Matrix4>}
+ */
 export class Matrix4 extends UniformValue<Matrix4> {
+  /**
+   * Matrix elements
+   *
+   * @type {number[]}
+   * @memberof Matrix4
+   */
   public matrix: number[] = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
 
+  /**
+   * Creates an instance of Matrix4.
+   * @param {number[]} [numArray] default matrix elements
+   * @memberof Matrix4
+   */
   constructor(numArray?: number[]) {
     super();
     if (numArray) this.set(numArray);
   }
 
-  // 生成
+  /**
+   * Identity matrix
+   *
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
   public eye(): Matrix4 {
     this.matrix = [1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1];
     return this;
   }
 
+  /**
+   * Set matrix elements
+   *
+   * @param {number[]} numArray
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
   public set(numArray: number[]): Matrix4 {
+    if (numArray.length !== 16) {
+      // eslint-disable-next-line no-console
+      console.error('Number of elements is invalid.');
+      return this;
+    }
     this.matrix = numArray;
     return this;
   }
 
+  /**
+   * Empty matrix
+   *
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
   public empty(): Matrix4 {
     this.matrix = [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
     return this;
   }
 
+  /**
+   * Create matrix filled with a
+   *
+   * @param {number} a filling number
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
   public fill(a: number): Matrix4 {
     this.matrix = [a, a, a, a, a, a, a, a, a, a, a, a, a, a, a, a];
     return this;
   }
 
-  // 計算
+  
+  /**
+   * Add matrix or number to this 
+   *
+   * @param {(Matrix4 | number)} add
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
   public add(add: Matrix4 | number): Matrix4 {
     const m: number[] = this.matrix;
     if (add instanceof Matrix4) {
@@ -74,7 +129,14 @@ export class Matrix4 extends UniformValue<Matrix4> {
     ]);
   }
 
-  public subtract(sub: Matrix4): Matrix4 {
+  /**
+   * Substact matrix or number
+   *
+   * @param {(Matrix4 | number)} sub
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
+  public subtract(sub: Matrix4 | number): Matrix4 {
     const m: number[] = this.matrix;
     if (sub instanceof Matrix4) {
       const n: number[] = sub.matrix;
@@ -117,6 +179,13 @@ export class Matrix4 extends UniformValue<Matrix4> {
     ]);
   }
 
+  /**
+   * Multiply number or Matrix or Vector4
+   *
+   * @param {(number | Matrix4 | Vector4)} mul
+   * @return {*}  {(Matrix4 | Vector4)}
+   * @memberof Matrix4
+   */
   public multiply(mul: number | Matrix4 | Vector4): Matrix4 | Vector4 {
     const m: number[] = this.matrix;
     if (mul instanceof Matrix4) {
@@ -168,6 +237,12 @@ export class Matrix4 extends UniformValue<Matrix4> {
     ]);
   }
 
+  /**
+   * Transpose matrix
+   *
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
   public transpose(): Matrix4 {
     const m: number[] = this.matrix;
     return new Matrix4([
@@ -190,6 +265,12 @@ export class Matrix4 extends UniformValue<Matrix4> {
     ]);
   }
 
+  /**
+   * Inverse matrix (if not invertible, throw error)
+   *
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
   public inverse(): Matrix4 {
     const mat: number[] = this.matrix;
     const a = mat[0];
@@ -244,6 +325,12 @@ export class Matrix4 extends UniformValue<Matrix4> {
     return new Matrix4(dest);
   }
 
+  /**
+   * Get scale and rotation matrix
+   *
+   * @return {*}  {Matrix4}
+   * @memberof Matrix4
+   */
   public getScaleRotationMatrix(): Matrix4 {
     const m = this.matrix;
     return new Matrix4([
@@ -266,16 +353,35 @@ export class Matrix4 extends UniformValue<Matrix4> {
     ]);
   }
 
+  /**
+   * Get translate matrix
+   *
+   * @return {*}  {Vector3}
+   * @memberof Matrix4
+   */
   public getTranslateVector(): Vector3 {
     return new Vector3(this.matrix[12], this.matrix[13], this.matrix[14]);
   }
 
   // override
 
+  /**
+   * Is equal
+   *
+   * @param {Matrix4} a
+   * @return {*} 
+   * @memberof Matrix4
+   */
   public equals(a: Matrix4) {
     return this.matrix.reduce((prev, curr, index) => prev && curr === a.matrix[index], true);
   }
 
+  /**
+   * Clone
+   *
+   * @return {*} 
+   * @memberof Matrix4
+   */
   public clone() {
     const m = this.matrix;
     return new Matrix4([
@@ -298,10 +404,23 @@ export class Matrix4 extends UniformValue<Matrix4> {
     ]);
   }
 
+  /**
+   * Get Float32Array (to pass shader)
+   *
+   * @return {*}  {Float32Array}
+   * @memberof Matrix4
+   */
   public getArray(): Float32Array {
     return new Float32Array(this.matrix);
   }
 
+  /**
+   * Pass value to shader
+   *
+   * @param {WebGLRenderingContext} gl
+   * @param {WebGLUniformLocation} uniLocation
+   * @memberof Matrix4
+   */
   public setUniform(gl: WebGLRenderingContext, uniLocation: WebGLUniformLocation) {
     gl.uniformMatrix4fv(uniLocation, false, this.getArray());
   }
