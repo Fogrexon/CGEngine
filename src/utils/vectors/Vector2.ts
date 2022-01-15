@@ -1,4 +1,4 @@
-import { UniformValue } from "../UniformValue";
+import { UniformValue } from '../UniformValue';
 
 export class Vector2 extends UniformValue<Vector2> {
   public x: number;
@@ -46,9 +46,11 @@ export class Vector2 extends UniformValue<Vector2> {
 
   public divide(a: Vector2 | number): Vector2 {
     if (a instanceof Vector2) {
+      // eslint-disable-next-line no-console
       console.assert(!(a.x === 0 || a.y === 0), 'cannot divide by zero');
       return new Vector2(this.x / a.x, this.y / a.y);
     }
+    // eslint-disable-next-line no-console
     console.assert(a !== 0, 'cannot divide by zero');
     return new Vector2(this.x / a, this.y / a);
   }
@@ -73,7 +75,7 @@ export class Vector2 extends UniformValue<Vector2> {
     return new Float32Array([this.x, this.y]);
   }
 
-  public setUniform(gl: WebGLRenderingContext, uniLocation:WebGLUniformLocation) {
+  public setUniform(gl: WebGLRenderingContext, uniLocation: WebGLUniformLocation) {
     gl.uniform2fv(uniLocation, this.getArray());
   }
 }

@@ -2,7 +2,6 @@ import { Matrix4 } from '../utils/Matrix';
 import { Camera } from './Camera';
 
 export class OrthographicCamera extends Camera {
-
   private height: number;
 
   private aspect: number;

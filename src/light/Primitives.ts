@@ -33,17 +33,17 @@ export interface LightsUniform {
     color: Color;
   }[];
   uAmbientNum: number | Integer;
-};
+}
 
 export const createOriginalLightsUniform = (): LightsUniform => ({
-    uDirectionalLight: [],
-    uDirectionalNum: 0,
-    uPointLight: [],
-    uPointNum: 0,
-    uSpotLight: [],
-    uSpotNum: 0,
-    uAmbientLight: [],
-    uAmbientNum: 0,
-  });
+  uDirectionalLight: [],
+  uDirectionalNum: 0,
+  uPointLight: [],
+  uPointNum: 0,
+  uSpotLight: [],
+  uSpotNum: 0,
+  uAmbientLight: [],
+  uAmbientNum: 0,
+});
 
 export { Directional, Point, Spot, Ambient };

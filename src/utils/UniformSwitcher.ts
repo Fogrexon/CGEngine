@@ -15,9 +15,12 @@ export const isValidValue = (a: any) =>
   a instanceof Matrix4 ||
   a instanceof Integer;
 
-
-export const UniformSwitcher = (gl: WebGLRenderingContext, uniLocation: WebGLUniformLocation, value: UniformType) => {
-  if(!isValidValue(value)) return;
-  if(typeof value === 'number') gl.uniform1f(uniLocation, value);
+export const UniformSwitcher = (
+  gl: WebGLRenderingContext,
+  uniLocation: WebGLUniformLocation,
+  value: UniformType
+) => {
+  if (!isValidValue(value)) return;
+  if (typeof value === 'number') gl.uniform1f(uniLocation, value);
   else (value as UniformValue<any>).setUniform(gl, uniLocation);
-}
+};

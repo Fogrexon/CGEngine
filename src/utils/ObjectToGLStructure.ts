@@ -8,7 +8,6 @@ export interface UniformStruct {
   [key: string]: UniformType | UniformType[] | UniformStruct | UniformStruct[];
 }
 
-
 const ObjectName = (_base: string, original: any, list: any) => {
   const base = _base === '' ? _base : `${_base}.`;
   Object.entries(original).map((value) => {
@@ -27,7 +26,9 @@ const ArrayName = (base: string, original: any, list: any) => {
   }
 };
 
-export const ObjectToGLStructure = (original: UniformStruct): { [key: string]: UniformValue<any> } => {
+export const ObjectToGLStructure = (
+  original: UniformStruct
+): { [key: string]: UniformValue<any> } => {
   const list = {};
   if (Array.isArray(original)) ArrayName('', original, list);
   else if (typeof original === 'object') ObjectName('', original, list);

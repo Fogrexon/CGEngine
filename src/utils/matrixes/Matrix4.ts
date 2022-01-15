@@ -265,7 +265,7 @@ export class Matrix4 extends UniformValue<Matrix4> {
       1,
     ]);
   }
-  
+
   public getTranslateVector(): Vector3 {
     return new Vector3(this.matrix[12], this.matrix[13], this.matrix[14]);
   }
@@ -273,12 +273,29 @@ export class Matrix4 extends UniformValue<Matrix4> {
   // override
 
   public equals(a: Matrix4) {
-    return this.matrix.reduce((prev, curr, index) => prev && (curr === a.matrix[index]), true);
+    return this.matrix.reduce((prev, curr, index) => prev && curr === a.matrix[index], true);
   }
 
   public clone() {
     const m = this.matrix;
-    return new Matrix4([m[0], m[1], m[2], m[3], m[4], m[5], m[6], m[7], m[8], m[9], m[10], m[11], m[12], m[13], m[14], m[15]])
+    return new Matrix4([
+      m[0],
+      m[1],
+      m[2],
+      m[3],
+      m[4],
+      m[5],
+      m[6],
+      m[7],
+      m[8],
+      m[9],
+      m[10],
+      m[11],
+      m[12],
+      m[13],
+      m[14],
+      m[15],
+    ]);
   }
 
   public getArray(): Float32Array {

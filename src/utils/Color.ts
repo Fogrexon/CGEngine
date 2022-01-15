@@ -1,4 +1,4 @@
-import { UniformValue } from "./UniformValue";
+import { UniformValue } from './UniformValue';
 
 export class Color extends UniformValue<Color> {
   public r: number;
@@ -22,7 +22,7 @@ export class Color extends UniformValue<Color> {
   }
 
   public clone() {
-    return new Color(this.r, this.g, this.b, this.a)
+    return new Color(this.r, this.g, this.b, this.a);
   }
 
   public getArray(): Float32Array {
@@ -32,5 +32,4 @@ export class Color extends UniformValue<Color> {
   public setUniform(gl: WebGLRenderingContext, uniLocation: WebGLUniformLocation) {
     gl.uniform4fv(uniLocation, this.getArray());
   }
-
 }

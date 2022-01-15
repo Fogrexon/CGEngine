@@ -156,4 +156,3 @@ export const PhysicalFragment = (_brdf?: string) => {
   const brdf: string = _brdf || Primitives.Standard;
   return PhysicalFragmentBase.before + brdf + PhysicalFragmentBase.after;
 };
-

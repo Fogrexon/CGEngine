@@ -1,4 +1,4 @@
-import { UniformValue } from "../UniformValue";
+import { UniformValue } from '../UniformValue';
 
 export class Vector3 extends UniformValue<Vector3> {
   public x: number;
@@ -50,10 +50,12 @@ export class Vector3 extends UniformValue<Vector3> {
 
   public divide(a: Vector3 | number): Vector3 {
     if (a instanceof Vector3) {
+      // eslint-disable-next-line no-console
       console.assert(!(a.x === 0 || a.y === 0 || a.z === 0), 'cannot divide by zero');
       return new Vector3(this.x / a.x, this.y / a.y, this.z / a.z);
     }
 
+    // eslint-disable-next-line no-console
     console.assert(a !== 0, 'cannot divide by zero');
     return new Vector3(this.x / a, this.y / a, this.z / a);
   }

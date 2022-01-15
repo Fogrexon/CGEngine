@@ -1,5 +1,4 @@
 export abstract class UniformValue<T> {
-  
   public abstract equals(a: T): boolean;
 
   public abstract clone(): T;

@@ -16,7 +16,7 @@ interface RendererParameter {
 export interface RenderOptions {
   uniforms: {
     [key: string]: UniformValue<any>;
-  }
+  };
 }
 
 export class Renderer {
@@ -55,7 +55,11 @@ export class Renderer {
   }
 
   render(camera: Camera) {
-    console.assert(!!this.entities, 'Entities are not initialized');
+    if (!this.entities) {
+      // eslint-disable-next-line no-console
+      console.error('Entities are not initialized.');
+      return;
+    }
     this.gl.enable(this.gl.DEPTH_TEST);
     this.gl.depthFunc(this.gl.LEQUAL);
     this.gl.enable(this.gl.CULL_FACE);
@@ -65,7 +69,6 @@ export class Renderer {
     this.gl.clearDepth(<number>this.parameter.clearDepth);
     this.gl.clear(this.gl.COLOR_BUFFER_BIT || this.gl.DEPTH_BUFFER_BIT);
 
-    if (!this.entities) return;
     const lightsList: LightsUniform = createOriginalLightsUniform();
     this.entities.prepare(new Matrix4(), lightsList);
 

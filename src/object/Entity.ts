@@ -29,7 +29,7 @@ export class Entity extends Empty {
     this.material.uniforms.rMatrix = this.thisMat.getScaleRotationMatrix();
     this.material.uniforms = {
       ...this.material.uniforms,
-      ...options.uniforms
+      ...options.uniforms,
     };
 
     gl.useProgram(this.program);

@@ -94,6 +94,7 @@ export class Quartanion {
     if (element[maxIndex] < 0) {
       this.v = new Vector3(0, 0, 0);
       this.w = 1;
+      // eslint-disable-next-line no-console
       console.error('Wrong matrix');
       return this;
     }

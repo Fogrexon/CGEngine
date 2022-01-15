@@ -4,6 +4,7 @@ const compileShader = (gl: WebGLRenderingContext, shader: WebGLShader, source: s
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    // eslint-disable-next-line no-console
     console.error(source);
     throw new Error(<string>gl.getShaderInfoLog(shader));
   }
@@ -32,7 +33,11 @@ export class Material {
     this.uniforms = uniforms;
   }
 
-  initialize(gl: WebGLRenderingContext, program: WebGLProgram, defaultUniform: MaterialUniforms = {}) {
+  initialize(
+    gl: WebGLRenderingContext,
+    program: WebGLProgram,
+    defaultUniform: MaterialUniforms = {}
+  ) {
     this.vertexShader = gl.createShader(gl.VERTEX_SHADER);
     this.fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
     compileShader(gl, <WebGLShader>this.vertexShader, this.vertexSource);
@@ -53,16 +58,14 @@ export class Material {
     };
 
     Object.keys(this.uniforms).map((key: string) => {
-      this.uniformLocations[key] = <WebGLUniformLocation>(
-        gl.getUniformLocation(program, key)
-      );
+      this.uniformLocations[key] = <WebGLUniformLocation>gl.getUniformLocation(program, key);
       return true;
     });
   }
 
   setUniforms(gl: WebGLRenderingContext): void {
-    Object
-      .entries(this.uniformLocations)
-      .forEach(([key, value]) => value ? UniformSwitcher(gl, value, this.uniforms[key]) : null);
+    Object.entries(this.uniformLocations).forEach(([key, value]) =>
+      value ? UniformSwitcher(gl, value, this.uniforms[key]) : null
+    );
   }
 }
