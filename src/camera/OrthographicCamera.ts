@@ -1,8 +1,7 @@
 import { Matrix4 } from '../utils/Matrix';
 import { Camera } from './Camera';
 
-class OrthographicCamera extends Camera {
-
+export class OrthographicCamera extends Camera {
   private height: number;
 
   private aspect: number;
@@ -50,5 +49,3 @@ class OrthographicCamera extends Camera {
     ]);
   }
 }
-
-export { OrthographicCamera };

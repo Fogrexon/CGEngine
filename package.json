@@ -2,8 +2,8 @@
   "name": "cgengine",
   "version": "2.0.0",
   "description": "This is the 3DCG engine with WebGL",
-  "main": "build/commonjs/main.js",
-  "module": "build/esm/main.js",
+  "main": "build/commonjs/index.js",
+  "module": "build/esm/index.js",
   "scripts": {
     "build": "rollup --config",
     "start": "rollup --config --watch",
@@ -11,7 +11,9 @@
     "lint:prettier": "prettier \"./src/**/*.ts\"",
     "lint:eslint": "eslint \"./src/**/*.ts\"",
     "lint:fix": "prettier \"./src/**/*.ts\" --write & eslint \"./src/**/*.ts\" --fix",
-    "docs:serve": "docsify serve docs"
+    "site:serve": "docsify serve docs",
+    "docs:serve": "typedoc --out ./docs/docs ./src/"
+
   },
   "author": "Fogrex",
   "license": "MIT",
@@ -30,7 +32,8 @@
     "prettier": "^2.3.2",
     "rollup": "^2.56.3",
     "rollup-plugin-glslify": "^1.2.0",
-    "typescript": "^3.9.3"
+    "typedoc": "^0.22.10",
+    "typescript": "^4.5.4"
   },
   "repository": {
     "type": "git",

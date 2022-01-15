@@ -2,7 +2,7 @@ import { Matrix4 } from '../utils/Matrix';
 import { Vector3 } from '../utils/Vector';
 import { Transform } from '../object/transform/Transform';
 
-abstract class Camera {
+export abstract class Camera {
   public transform: Transform;
 
   protected viewMatrix: Matrix4;
@@ -28,5 +28,3 @@ abstract class Camera {
     };
   }
 }
-
-export { Camera };

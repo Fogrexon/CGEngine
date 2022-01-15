@@ -5,5 +5,5 @@
 ## Tutorial
 * [GettingStarted](/pages/GettingStarted.md)
 
-## Docs
-* [Camera](/pages/Camera.md)
+## Documents
+* [Documents](/../docs/)

@@ -1,4 +1,6 @@
-class Vector3 {
+import { UniformValue } from '../UniformValue';
+
+export class Vector3 extends UniformValue<Vector3> {
   public x: number;
 
   public y: number;
@@ -6,6 +8,7 @@ class Vector3 {
   public z: number;
 
   constructor(_x: number, _y: number, _z: number) {
+    super();
     this.x = _x;
     this.y = _y;
     this.z = _z;
@@ -47,10 +50,12 @@ class Vector3 {
 
   public divide(a: Vector3 | number): Vector3 {
     if (a instanceof Vector3) {
+      // eslint-disable-next-line no-console
       console.assert(!(a.x === 0 || a.y === 0 || a.z === 0), 'cannot divide by zero');
       return new Vector3(this.x / a.x, this.y / a.y, this.z / a.z);
     }
 
+    // eslint-disable-next-line no-console
     console.assert(a !== 0, 'cannot divide by zero');
     return new Vector3(this.x / a, this.y / a, this.z / a);
   }
@@ -71,17 +76,19 @@ class Vector3 {
     );
   }
 
-  public equal(a: Vector3): boolean {
+  public equals(a: Vector3): boolean {
     return this.x === a.x && this.y === a.y && this.z === a.z;
   }
 
-  public copy(): Vector3 {
+  public clone(): Vector3 {
     return new Vector3(this.x, this.y, this.z);
   }
 
   public getArray(): Float32Array {
     return new Float32Array([this.x, this.y, this.z]);
   }
-}
 
-export { Vector3 };
+  public setUniform(gl: WebGLRenderingContext, uniLocation: WebGLUniformLocation) {
+    gl.uniform3fv(uniLocation, this.getArray());
+  }
+}

@@ -6,7 +6,7 @@ import {
   SpecularBRDF,
 } from './Functions';
 
-const Primitives: { [key: string]: string } = {
+export const Primitives: { [key: string]: string } = {
   Standard:
     DiffuseBRDF.NormalizedLambert +
     Distribution.GGX +
@@ -20,5 +20,3 @@ const Primitives: { [key: string]: string } = {
     Fresnel.Schlick +
     SpecularBRDF.Pi,
 };
-
-export { Primitives };

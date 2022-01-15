@@ -1,7 +1,7 @@
 import { Vector3, Vector4 } from './Vector';
 import { Matrix4 } from './matrixes/Matrix4';
 
-class Quartanion {
+export class Quartanion {
   v: Vector3;
 
   w: number;
@@ -94,6 +94,7 @@ class Quartanion {
     if (element[maxIndex] < 0) {
       this.v = new Vector3(0, 0, 0);
       this.w = 1;
+      // eslint-disable-next-line no-console
       console.error('Wrong matrix');
       return this;
     }
@@ -155,13 +156,11 @@ class Quartanion {
     return <Vector4>this.matrix().multiply(a);
   }
 
-  public equal(a: Quartanion): boolean {
-    return this.v.equal(a.v) && this.w === a.w;
+  public equals(a: Quartanion): boolean {
+    return this.v.equals(a.v) && this.w === a.w;
   }
 
-  public copy(): Quartanion {
-    return new Quartanion(this.v.copy(), this.w);
+  public clone(): Quartanion {
+    return new Quartanion(this.v.clone(), this.w);
   }
 }
-
-export { Quartanion };

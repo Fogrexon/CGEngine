@@ -1,4 +1,4 @@
-const PhongFragment: string = `
+export const PhongFragment: string = `
 precision mediump float;
 
 #define saturate(x) clamp(x,0.0,1.0)
@@ -103,4 +103,3 @@ void main(void)
   gl_FragColor = result;
 }
 `;
-export { PhongFragment };

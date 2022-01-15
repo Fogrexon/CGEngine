@@ -4,17 +4,22 @@ const compileShader = (gl: WebGLRenderingContext, shader: WebGLShader, source: s
   gl.shaderSource(shader, source);
   gl.compileShader(shader);
   if (!gl.getShaderParameter(shader, gl.COMPILE_STATUS)) {
+    // eslint-disable-next-line no-console
     console.error(source);
     throw new Error(<string>gl.getShaderInfoLog(shader));
   }
 };
 
-class Material {
+export interface MaterialUniforms {
+  [key: string]: UniformType;
+}
+
+export class Material {
   private vertexSource: string;
 
   private fragmentSource: string;
 
-  public uniform: { [s: string]: UniformType };
+  public uniforms: MaterialUniforms;
 
   private vertexShader: WebGLShader | null = null;
 
@@ -22,13 +27,17 @@ class Material {
 
   private uniformLocations: { [s: string]: WebGLUniformLocation | null } = {};
 
-  constructor(vertex: string, fragment: string, uniform: {}) {
+  constructor(vertex: string, fragment: string, uniforms: MaterialUniforms = {}) {
     this.vertexSource = vertex;
     this.fragmentSource = fragment;
-    this.uniform = uniform;
+    this.uniforms = uniforms;
   }
 
-  initialize(gl: WebGLRenderingContext, program: WebGLProgram, defaultUniform: any) {
+  initialize(
+    gl: WebGLRenderingContext,
+    program: WebGLProgram,
+    defaultUniform: MaterialUniforms = {}
+  ) {
     this.vertexShader = gl.createShader(gl.VERTEX_SHADER);
     this.fragmentShader = gl.createShader(gl.FRAGMENT_SHADER);
     compileShader(gl, <WebGLShader>this.vertexShader, this.vertexSource);
@@ -43,23 +52,20 @@ class Material {
       throw new Error(<string>gl.getProgramInfoLog(program));
     }
 
-    this.uniform = {
-      ...this.uniform,
+    this.uniforms = {
+      ...this.uniforms,
       ...defaultUniform,
     };
 
-    Object.entries(this.uniform).map((value) => {
-      this.uniformLocations[value[0]] = <WebGLUniformLocation>(
-        gl.getUniformLocation(program, value[0])
-      );
+    Object.keys(this.uniforms).map((key: string) => {
+      this.uniformLocations[key] = <WebGLUniformLocation>gl.getUniformLocation(program, key);
       return true;
     });
   }
 
   setUniforms(gl: WebGLRenderingContext): void {
-    const entries = Object.entries(this.uniformLocations);
-    entries.map((value) => UniformSwitcher(gl, value[1], this.uniform[value[0]]));
+    Object.entries(this.uniformLocations).forEach(([key, value]) =>
+      value ? UniformSwitcher(gl, value, this.uniforms[key]) : null
+    );
   }
 }
-
-export { Material };

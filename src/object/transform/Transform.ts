@@ -2,7 +2,7 @@ import { Vector3 } from '../../utils/Vector';
 import { Quartanion } from '../../utils/Quarternion';
 import { Matrix4 } from '../../utils/Matrix';
 
-class Transform {
+export class Transform {
   position: Vector3;
 
   prevPos: Vector3;
@@ -58,9 +58,9 @@ class Transform {
 
   needUpdate(): boolean {
     return !(
-      this.position.equal(this.prevPos) &&
-      this.rotation.equal(this.prevRot) &&
-      this.scale.equal(this.prevSca)
+      this.position.equals(this.prevPos) &&
+      this.rotation.equals(this.prevRot) &&
+      this.scale.equals(this.prevSca)
     );
   }
 
@@ -105,11 +105,9 @@ class Transform {
     const r = this.rotation.matrix();
 
     this.matrix = <Matrix4>(<Matrix4>p.multiply(r)).multiply(s);
-    this.prevPos = this.position.copy();
-    this.prevRot = this.rotation.copy();
-    this.prevSca = this.scale.copy();
+    this.prevPos = this.position.clone();
+    this.prevRot = this.rotation.clone();
+    this.prevSca = this.scale.clone();
     return this.matrix;
   }
 }
-
-export { Transform };

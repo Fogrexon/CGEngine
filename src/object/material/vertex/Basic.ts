@@ -1,4 +1,4 @@
-const BasicVertex: string = `
+export const BasicVertex: string = `
 precision mediump float;
 attribute vec3 vertex;
 attribute vec3 normal;
@@ -26,5 +26,3 @@ void main(void) {
   gl_Position = pMatrix * vMatrix * vec4(vWorldPos, 1.0);
 }
 `;
-
-export { BasicVertex };

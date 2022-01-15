@@ -2,8 +2,9 @@ import { Empty } from './Empty';
 import { Geometry } from './geometry/Geometry';
 import { Material } from './material/Material';
 import { UniformType } from '../utils/UniformSwitcher';
+import { RenderOptions } from '../renderer/Renderer';
 
-class Entity extends Empty {
+export class Entity extends Empty {
   geometry: Geometry;
 
   material: Material;
@@ -23,12 +24,12 @@ class Entity extends Empty {
     super.initialize(gl, defaultUniforms);
   }
 
-  render(gl: WebGLRenderingContext, option: any): void {
-    this.material.uniform.mMatrix = this.thisMat;
-    this.material.uniform.rMatrix = this.thisMat.getScaleRotationMatrix();
-    this.material.uniform = {
-      ...this.material.uniform,
-      ...option.uniforms,
+  render(gl: WebGLRenderingContext, options: RenderOptions): void {
+    this.material.uniforms.mMatrix = this.thisMat;
+    this.material.uniforms.rMatrix = this.thisMat.getScaleRotationMatrix();
+    this.material.uniforms = {
+      ...this.material.uniforms,
+      ...options.uniforms,
     };
 
     gl.useProgram(this.program);
@@ -37,8 +38,6 @@ class Entity extends Empty {
 
     gl.drawElements(gl.TRIANGLES, this.geometry.getIndexLength(), gl.UNSIGNED_SHORT, 0);
 
-    super.render(gl, option);
+    super.render(gl, options);
   }
 }
-
-export { Entity };

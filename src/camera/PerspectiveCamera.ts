@@ -1,8 +1,7 @@
 import { Matrix4 } from '../utils/Matrix';
-import { Camera } from './Camera'
+import { Camera } from './Camera';
 
-class PerspectiveCamera extends Camera {
-
+export class PerspectiveCamera extends Camera {
   public angle: number;
 
   public aspect: number;
@@ -50,5 +49,3 @@ class PerspectiveCamera extends Camera {
     ]);
   }
 }
-
-export { PerspectiveCamera };

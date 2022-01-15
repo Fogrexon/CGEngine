@@ -1,6 +1,6 @@
 import { Geometry } from '../Geometry';
 
-const Cube = (): Geometry => {
+export const Cube = (): Geometry => {
   const vertex: number[] = [
     -0.5, 0.5, 0.5, -0.5, -0.5, 0.5, 0.5, 0.5, 0.5, 0.5, -0.5, 0.5,
 
@@ -84,5 +84,3 @@ const Cube = (): Geometry => {
 
   return new Geometry(vertex, normal, uv, index, tangent, bitangent);
 };
-
-export { Cube };

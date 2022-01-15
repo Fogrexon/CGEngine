@@ -5,7 +5,7 @@ import { LightsUniform } from '../Primitives';
 
 import { Color } from '../../utils/Color';
 
-class Ambient extends Light {
+export class Ambient extends Light {
   color: Color;
 
   constructor(color: Color) {
@@ -31,5 +31,3 @@ class Ambient extends Light {
     this.children.map((child) => child.prepare(this.thisMat, lightsList));
   }
 }
-
-export { Ambient };
